@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Aaiza Khalid</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root{
+  --bg:#F1E9DC;
+  --bg-card:#FBF7EF;
+  --ink:#3B2A3E;
+  --ink-soft:#6B5A6E;
+  --ink-mute:#948298;
+  --coral:#C24B2F;
+  --olive:#7C8A3D;
+  --border:#E2D6C4;
+  --border-strong:#CBB89D;
+  --font-display:'Fraunces', serif;
+  --font-sans:'Space Grotesk', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --maxw:920px;
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:1.65;
+  position:relative;
+  overflow-x:hidden;
+}
+
+.grid-overlay{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(59,42,62,0.05) 79px, rgba(59,42,62,0.05) 80px);
+  opacity:0; transition:opacity .8s ease;
+}
+body.grid-on .grid-overlay{ opacity:1; }
+
+a{ color:inherit; text-decoration:none; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+/* nav */
+nav.site-nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(241,233,220,0.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);
+}
+nav.site-nav .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+nav.site-nav .mark img{ height:28px; display:block; }
+nav.site-nav .links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.02em; }
+nav.site-nav .links a{ color:var(--ink-soft); transition:color .2s; }
+nav.site-nav .links a:hover, nav.site-nav .links a.current{ color:var(--coral); }
+
+/* eyebrow */
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.05em;
+  color:var(--coral); margin-bottom:20px; display:flex; align-items:center; gap:8px;
+}
+.eyebrow::before{ content:''; width:6px; height:6px; background:var(--coral); display:inline-block; }
+
+/* headings */
+h1{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:52px; line-height:1.12; letter-spacing:-0.01em; max-width:760px; }
+h2{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:30px; line-height:1.25; margin:64px 0 20px; max-width:680px; }
+h3{ font-family:var(--font-sans); font-weight:500; font-size:16px; margin:28px 0 10px; color:var(--ink); }
+p{ color:var(--ink-soft); max-width:640px; }
+.accent{ color:var(--olive); font-style:italic; }
+
+/* hero */
+.hero{ padding:72px 0 56px; }
+.hero .sub{ font-family:var(--font-sans); font-size:17px; max-width:520px; margin-top:26px; }
+
+/* project index grid */
+.index-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:48px;
+}
+.index-grid .cell{
+  background:var(--bg-card); border:1px solid var(--border); padding:22px;
+  transition:transform .3s ease, border-color .3s ease; cursor:pointer; display:block;
+}
+.index-grid .cell:hover{ transform:translateY(-6px) rotate(-0.5deg); border-color:var(--coral); }
+.index-grid .cell:nth-child(3n+2):hover{ transform:translateY(-6px) rotate(0.5deg); }
+.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:12px; }
+.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:18px; line-height:1.3; }
+.index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:10px; display:block; }
+
+@media (max-width:720px){ .index-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:480px){ .index-grid{ grid-template-columns:1fr; } }
+
+/* case study meta row */
+.meta-row{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:24px 0; margin:36px 0 44px; max-width:760px;
+}
+.meta-row div{ font-size:13px; }
+.meta-row .label{ font-family:var(--font-mono); font-size:11px; color:var(--coral); display:block; margin-bottom:6px; }
+.meta-row .val{ color:var(--ink); font-weight:500; }
+@media (max-width:640px){ .meta-row{ grid-template-columns:1fr 1fr; } }
+
+/* stat row */
+.stat-row{ display:flex; gap:48px; flex-wrap:wrap; margin:32px 0 12px; }
+.stat{ min-width:120px; }
+.stat .num{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:38px; color:var(--coral); line-height:1; }
+.stat .label{ font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); margin-top:8px; display:block; }
+
+/* images */
+figure{ margin:28px 0; }
+figure img, figure video{ width:100%; display:block; border:1px solid var(--border); background:var(--bg-card); }
+figcaption{ font-family:var(--font-mono); font-size:12px; color:var(--ink-mute); margin-top:10px; }
+
+/* list quotes */
+blockquote{
+  font-family:var(--font-display); font-style:italic; font-size:22px; color:var(--ink);
+  border-left:2px solid var(--coral); padding-left:24px; margin:32px 0; max-width:600px;
+}
+
+ul{ color:var(--ink-soft); padding-left:20px; max-width:620px; }
+ul li{ margin-bottom:8px; }
+
+/* up next */
+.up-next{
+  margin-top:96px; padding:44px 0; border-top:1px solid var(--border);
+}
+.up-next .eyebrow{ margin-bottom:14px; }
+.up-next .title{ font-family:var(--font-display); font-style:italic; font-size:34px; transition:color .2s; }
+.up-next a:hover .title{ color:var(--coral); }
+
+/* footer */
+footer{ margin-top:80px; padding:56px 0 64px; border-top:1px solid var(--border); }
+footer .label{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); text-transform:lowercase; letter-spacing:0.05em; }
+footer .big{ font-family:var(--font-display); font-style:italic; font-size:26px; margin:8px 0 32px; display:block; }
+footer .big:hover{ color:var(--coral); }
+footer .flower{ height:48px; margin-top:24px; opacity:0.85; }
+
+section.body-content{ padding-bottom:20px; }
+
+@media (max-width:640px){
+  h1{ font-size:38px; }
+  h2{ font-size:24px; }
+  .wrap{ padding:0 20px; }
+}
+
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/608301ea3f40d42e7179f87a_signature%20(4).png" alt="Aaiza Khalid"></a>
+    <div class="links">
+      <a href="index.html">Work</a>
+      <a href="about.html" class="current">About</a>
+      <a href="https://drive.google.com/file/d/19e17WvqtgwXd5ikh0A21keDAwqfaJ39k/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">about</div>
+    <h1>Hey, I'm Aaiza. Nice to <span class="accent">meet</span> you!</h1>
+    <p class="sub">A product designer who strives to solve problems by systematically asking critical questions and designing beautiful solutions.</p>
+  </div>
+</header>
+
+<main class="wrap body-content">
+
+  <p>With a background in software engineering, I design with technical limitations in mind, and I try to think holistically about user needs alongside business goals.</p>
+  <p style="margin-top:16px;">I see the scope of human-centered design as bigger than a screen. It's a mindset that shows up in every interaction we have with people around us — and as a designer, I try to craft experiences while genuinely standing in the user's shoes.</p>
+  <p style="margin-top:16px;">Outside of work, I enjoy exploring nature, and the intersection of tech and social impact.</p>
+
+  <h2>A developer turned designer</h2>
+  <p>I landed my first internship as a sole UI/UX designer for a local startup, then became a self-taught coder because I was excited to build out my own designs — which led me into a few software engineering internships.</p>
+  <p style="margin-top:16px;">Throughout that time, I stayed fascinated by the "why" behind the code I was writing. That curiosity pulled me deeper into UX, and after a few part-time design roles and side projects, I fell in love with the art of problem solving.</p>
+  <p style="margin-top:16px;">I think of myself as a full-stack product designer — one who can lead a project from research and design through prototyping to a smooth developer handoff, and who's happy to jump into the code myself when it helps.</p>
+
+  <h2>Where I've worked</h2>
+  <div class="meta-row" style="grid-template-columns:1fr 1fr; max-width:520px;">
+    <div><span class="val">UX Design Intern @ Dozr</span><br><span class="label" style="margin-top:4px;">2021</span></div>
+    <div><span class="val">Design Thinking Instructor @ Code.X</span><br><span class="label" style="margin-top:4px;">2021</span></div>
+    <div><span class="val">Software Engineering Intern @ ResQ</span><br><span class="label" style="margin-top:4px;">2021</span></div>
+    <div><span class="val">Product Designer @ TobyX</span><br><span class="label" style="margin-top:4px;">2020</span></div>
+    <div><span class="val">Product Designer + Engineer @ Nytia</span><br><span class="label" style="margin-top:4px;">2020</span></div>
+    <div><span class="val">Software Engineering Intern @ Tucows</span><br><span class="label" style="margin-top:4px;">2020</span></div>
+  </div>
+
+  <h2>Design &amp; social impact</h2>
+  <p>Design can have a widespread positive impact on the world around us, when it's used well — whether that's apps that help feed the homeless, or apps that build mindfulness practices.</p>
+  <p style="margin-top:16px;">I recently taught a design thinking camp to high school kids living in a displaced community. Despite having limited resources, their drive to help their own community was an eye-opener for me. All they needed was education and mentorship — which gave them the confidence to go on and compete in international hackathons and join universities worldwide.</p>
+
+  <figure>
+    <img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/619fc176508afd5f16e6cb0d_image%2029.png" alt="Design thinking workshop">
+  </figure>
+
+  <h2>Outside of 9–5...</h2>
+  <p>When I'm not in a Figma file, I'm usually taking a stroll outside, chasing pretty pink sunsets.</p>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="label">Reach me at</span>
+    <a class="big" href="mailto:aaiza_khalid@hotmail.com">aaiza_khalid@hotmail.com</a>
+    <span class="label">Connect on</span>
+    <a class="big" href="https://www.linkedin.com/in/aaizakh/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('mousemove', function(){
+  document.body.classList.add('grid-on');
+}, { once:true });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit21 — Aaiza Khalid</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root{
+  --bg:#F1E9DC;
+  --bg-card:#FBF7EF;
+  --ink:#3B2A3E;
+  --ink-soft:#6B5A6E;
+  --ink-mute:#948298;
+  --coral:#C24B2F;
+  --olive:#7C8A3D;
+  --border:#E2D6C4;
+  --border-strong:#CBB89D;
+  --font-display:'Fraunces', serif;
+  --font-sans:'Space Grotesk', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --maxw:920px;
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:1.65;
+  position:relative;
+  overflow-x:hidden;
+}
+
+.grid-overlay{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(59,42,62,0.05) 79px, rgba(59,42,62,0.05) 80px);
+  opacity:0; transition:opacity .8s ease;
+}
+body.grid-on .grid-overlay{ opacity:1; }
+
+a{ color:inherit; text-decoration:none; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+/* nav */
+nav.site-nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(241,233,220,0.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);
+}
+nav.site-nav .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+nav.site-nav .mark img{ height:28px; display:block; }
+nav.site-nav .links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.02em; }
+nav.site-nav .links a{ color:var(--ink-soft); transition:color .2s; }
+nav.site-nav .links a:hover, nav.site-nav .links a.current{ color:var(--coral); }
+
+/* eyebrow */
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.05em;
+  color:var(--coral); margin-bottom:20px; display:flex; align-items:center; gap:8px;
+}
+.eyebrow::before{ content:''; width:6px; height:6px; background:var(--coral); display:inline-block; }
+
+/* headings */
+h1{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:52px; line-height:1.12; letter-spacing:-0.01em; max-width:760px; }
+h2{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:30px; line-height:1.25; margin:64px 0 20px; max-width:680px; }
+h3{ font-family:var(--font-sans); font-weight:500; font-size:16px; margin:28px 0 10px; color:var(--ink); }
+p{ color:var(--ink-soft); max-width:640px; }
+.accent{ color:var(--olive); font-style:italic; }
+
+/* hero */
+.hero{ padding:72px 0 56px; }
+.hero .sub{ font-family:var(--font-sans); font-size:17px; max-width:520px; margin-top:26px; }
+
+/* project index grid */
+.index-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:48px;
+}
+.index-grid .cell{
+  background:var(--bg-card); border:1px solid var(--border); padding:22px;
+  transition:transform .3s ease, border-color .3s ease; cursor:pointer; display:block;
+}
+.index-grid .cell:hover{ transform:translateY(-6px) rotate(-0.5deg); border-color:var(--coral); }
+.index-grid .cell:nth-child(3n+2):hover{ transform:translateY(-6px) rotate(0.5deg); }
+.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:12px; }
+.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:18px; line-height:1.3; }
+.index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:10px; display:block; }
+
+@media (max-width:720px){ .index-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:480px){ .index-grid{ grid-template-columns:1fr; } }
+
+/* case study meta row */
+.meta-row{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:24px 0; margin:36px 0 44px; max-width:760px;
+}
+.meta-row div{ font-size:13px; }
+.meta-row .label{ font-family:var(--font-mono); font-size:11px; color:var(--coral); display:block; margin-bottom:6px; }
+.meta-row .val{ color:var(--ink); font-weight:500; }
+@media (max-width:640px){ .meta-row{ grid-template-columns:1fr 1fr; } }
+
+/* stat row */
+.stat-row{ display:flex; gap:48px; flex-wrap:wrap; margin:32px 0 12px; }
+.stat{ min-width:120px; }
+.stat .num{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:38px; color:var(--coral); line-height:1; }
+.stat .label{ font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); margin-top:8px; display:block; }
+
+/* images */
+figure{ margin:28px 0; }
+figure img, figure video{ width:100%; display:block; border:1px solid var(--border); background:var(--bg-card); }
+figcaption{ font-family:var(--font-mono); font-size:12px; color:var(--ink-mute); margin-top:10px; }
+
+/* list quotes */
+blockquote{
+  font-family:var(--font-display); font-style:italic; font-size:22px; color:var(--ink);
+  border-left:2px solid var(--coral); padding-left:24px; margin:32px 0; max-width:600px;
+}
+
+ul{ color:var(--ink-soft); padding-left:20px; max-width:620px; }
+ul li{ margin-bottom:8px; }
+
+/* up next */
+.up-next{
+  margin-top:96px; padding:44px 0; border-top:1px solid var(--border);
+}
+.up-next .eyebrow{ margin-bottom:14px; }
+.up-next .title{ font-family:var(--font-display); font-style:italic; font-size:34px; transition:color .2s; }
+.up-next a:hover .title{ color:var(--coral); }
+
+/* footer */
+footer{ margin-top:80px; padding:56px 0 64px; border-top:1px solid var(--border); }
+footer .label{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); text-transform:lowercase; letter-spacing:0.05em; }
+footer .big{ font-family:var(--font-display); font-style:italic; font-size:26px; margin:8px 0 32px; display:block; }
+footer .big:hover{ color:var(--coral); }
+footer .flower{ height:48px; margin-top:24px; opacity:0.85; }
+
+section.body-content{ padding-bottom:20px; }
+
+@media (max-width:640px){
+  h1{ font-size:38px; }
+  h2{ font-size:24px; }
+  .wrap{ padding:0 20px; }
+}
+
+
+/* reveal */
+.reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+/* framed figures */
+figure.framed{ background:#2A2130; border-radius:14px; padding:10px; box-shadow:0 24px 60px -24px rgba(59,42,62,0.4); border:none; }
+figure.framed .bar{ display:flex; gap:5px; padding:2px 4px 9px; }
+figure.framed .bar i{ width:8px; height:8px; border-radius:50%; background:#584A5E; display:block; }
+figure.framed img{ border:none; border-radius:7px; cursor:zoom-in; }
+/* decision callout */
+.decision{ background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--coral); padding:26px 28px; margin:36px 0; max-width:680px; }
+.decision .dlabel{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.06em; color:var(--coral); text-transform:uppercase; display:block; margin-bottom:12px; }
+.decision .dtitle{ font-family:var(--font-display); font-style:italic; font-size:21px; margin-bottom:12px; }
+.decision p{ font-size:14.5px; }
+/* option tabs */
+.opt-tabs{ margin:8px 0 0; }
+.opt-tabbar{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.opt-tab{ font-family:var(--font-mono); font-size:12px; background:transparent; border:1px solid var(--border); color:var(--ink-soft); padding:10px 16px; cursor:pointer; transition:all .2s; }
+.opt-tab:hover{ border-color:var(--coral); color:var(--ink); }
+.opt-tab.active{ background:var(--ink); border-color:var(--ink); color:var(--bg); }
+.opt-panel{ display:none; }
+.opt-panel.active{ display:block; }
+.opt-verdict{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+.opt-verdict span{ font-family:var(--font-mono); font-size:11px; padding:6px 12px; border:1px solid var(--border); background:var(--bg-card); color:var(--ink-soft); }
+.opt-verdict span.win{ border-color:var(--olive); color:var(--olive); }
+.opt-verdict span.lose{ border-color:var(--coral); color:var(--coral); }
+/* lightbox */
+.lightbox{ position:fixed; inset:0; background:rgba(42,33,48,0.94); display:none; align-items:center; justify-content:center; z-index:99; cursor:zoom-out; padding:40px; }
+.lightbox.open{ display:flex; }
+.lightbox img{ max-width:100%; max-height:100%; border-radius:8px; }
+
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="../index.html"><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/608301ea3f40d42e7179f87a_signature%20(4).png" alt="Aaiza Khalid"></a>
+    <div class="links">
+      <a href="../index.html">Work</a>
+      <a href="../about.html">About</a>
+      <a href="https://drive.google.com/file/d/19e17WvqtgwXd5ikh0A21keDAwqfaJ39k/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">case study 02</div>
+    <h1>Discovering fraudulent checks to <span class="accent">catch fraud</span></h1>
+
+    <div class="meta-row">
+      <div><span class="label">Overview</span><span class="val">Product Design @ Unit21</span></div>
+      <div><span class="label">Role</span><span class="val">Designer, PM, EM, 4 engineers, CS</span></div>
+      <div><span class="label">Timeline</span><span class="val">2 months</span></div>
+      <div><span class="label">Status</span><span class="val">In beta</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap body-content">
+
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/66452d4e4a1a9e37d4fb5c0b_Group%20633799.png" alt="Unit21 overview"></figure>
+
+  <h2 class="reveal">Overview</h2>
+  <p>Check fraud is a rampant problem — banks and credit unions lost up to $24 billion to it through 2023. We tackled it by improving a highly manual alert-investigation process, while laying the foundation for an AI-driven version of it.</p>
+  <p style="margin-top:16px;">I discovered gaps in the check-image comparison flow, and championed an image comparison tool that improved investigation efficiency by 80%.</p>
+
+  <h2 class="reveal">Problem</h2>
+  <p>Agents monitor alerted transactions and investigate where necessary. A single investigation could take over <strong>2 hours</strong>, mostly because information was scattered across tools and required an unnecessary number of clicks to find.</p>
+  <p style="margin-top:16px;">The biggest UX issue was in check comparison — agents comparing a check image against previous images to spot signs of fraud. I focused in on just that portion of the flow.</p>
+
+  <h2 class="reveal">Needs assessment</h2>
+  <ul>
+    <li><strong>User need:</strong> minimize screen transitions during an investigation.</li>
+    <li><strong>User need:</strong> keep new features inside the core flow so they're actually discoverable.</li>
+    <li><strong>Business need:</strong> Unit21 didn't offer a dedicated check-fraud solution — there was a clear opportunity to build an end-to-end one.</li>
+  </ul>
+
+  <h2 class="reveal">How are alerts investigated?</h2>
+  <p>Each bank sets its own guidelines for what to investigate — transaction activity, entity relationships, and comparing checks against past checks. To find pain points, I interviewed <strong>10 users across 5 banks</strong>, from fraud specialists to VPs of fraud.</p>
+  <p style="margin-top:16px;">The biggest issue: agents constantly jumping between platforms to find the information they needed.</p>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/6644e7adc8d4b777b19eabce_Group%20633752.png" alt="Investigation process walkthrough"></figure>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/6644ea2a1cd368847b0ac2ee_Group%20633777.png" alt="Agent time breakdown"></figure>
+
+  <h3>How agents and managers felt</h3>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/6644fb6ad49047fcba9a45f2_Group%20633780.png" alt="Agent sentiment"></figure>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/6644fb6aad30bab7bf0091d2_Group%20633779.png" alt="Manager sentiment"></figure>
+
+  <h2 class="reveal">What functionality was actually required?</h2>
+  <p>Through user walkthroughs, competitive analysis, and ethnographic research, six requirements emerged — including the ability to view, zoom, compare, enhance, and overlay check images directly within Unit21.</p>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/664509c06752a78fbb199577_440882471_812549610297609_5010116247367626260_n%201.png" alt="Requirement: view check image"></figure>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/664509c1ff520222ed7baaa2_440911933_414790401450991_597062968559238375_n%201.png" alt="Requirement: overlay checks"></figure>
+
+  <div class="decision reveal">
+    <span class="dlabel">the call I made</span>
+    <div class="dtitle">To automate, or not?</div>
+    <p>Automating visual comparison could save 5–10 minutes per investigation — but fraud managers surfaced real risk: a risk-averse industry, the threat of automation bias, and no manual baseline to check AI's work against. Most agents were also 40+ and not ready to trust AI outright.</p>
+    <p style="margin-top:12px;"><strong>I designed the manual comparison first, architected so automation could layer on later</strong> — trust before efficiency.</p>
+  </div>
+
+  <h2 class="reveal">Making it discoverable</h2>
+  <p>I explored three approaches and reviewed trade-offs with engineering and product:</p>
+  <div class="opt-tabs reveal">
+    <div class="opt-tabbar">
+      <button class="opt-tab active" data-o="0">Option 1 — pre-selected list</button>
+      <button class="opt-tab" data-o="1">Option 2 — transaction analysis</button>
+      <button class="opt-tab" data-o="2">Option 3 — stepper widget</button>
+    </div>
+    <div class="opt-panel active">
+      <p>Agents compare against recent or flagged images directly from the check view.</p>
+      <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/664519aa84e4d3455501139c_Group%20633783.png" alt="Option 1: pre-selected list"></figure>
+      <div class="opt-verdict"><span class="win">simple</span><span class="win">discoverable</span><span class="lose">not flexible enough</span></div>
+    </div>
+    <div class="opt-panel">
+      <p>Agents filter and drill into transactions, then select matching check images to compare.</p>
+      <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/66451c7f16c7eea4c4a6bbc6_Group%20633676.png" alt="Option 2: transaction analysis"></figure>
+      <div class="opt-verdict"><span class="win">most flexible</span><span class="win">reuses existing patterns</span><span class="lose">weaker discoverability</span></div>
+    </div>
+    <div class="opt-panel">
+      <p>A stepper lets agents walk through transactions to pick check images to compare.</p>
+      <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/66451de498275c697eba2c33_Group%20633792%20(1).png" alt="Option 3: stepper widget"></figure>
+      <div class="opt-verdict"><span class="win">guided</span><span class="lose">rebuilds a complex table in a modal</span><span class="lose">too costly to implement</span></div>
+    </div>
+  </div>
+
+  <p>We chose option 2 for flexibility — option 1 wasn't flexible enough, and option 3 required rebuilding a complex transaction table in a modal that would be too costly to implement.</p>
+
+  <h2 class="reveal">Testing with users</h2>
+  <p>I ran usability tests with 7 users. Two issues stood out: 4 of 5 participants struggled to find the trigger point for comparing images, and scrolling to compare checks broke recognition in favor of recall — forcing people to remember details across screens instead of seeing them side by side.</p>
+  <div class="decision reveal">
+    <span class="dlabel">the call I made</span>
+    <div class="dtitle">Reversing my own decision</div>
+    <p>Testing showed the "flexible" path failed novices. I re-introduced option 1 alongside option 2 — serving both novice and expert users — and switched the comparison UI to side-by-side, favoring recognition over recall.</p>
+  </div>
+
+  <h2 class="reveal">Final iteration</h2>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/664522ea545b235241e65b75_Group%20633797.png" alt="Side by side comparison"></figure>
+  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/664522afb2eb79345451fe94_Group%20633730%20(1).png" alt="Image enhancement and overlay"></figure>
+
+  <h2 class="reveal">Learnings</h2>
+  <p>Designing enterprise SaaS is tricky when the people you talk to aren't always the people who'll use the product. This project taught me to prioritize talking to agents over management — including finding them through unconventional means like LinkedIn outreach — while still balancing user needs against business goals.</p>
+
+</main>
+
+<div class="wrap">
+  <a class="up-next" href="alert-scores.html" style="display:block;">
+    <div class="eyebrow">up next</div>
+    <div class="title">The UX of explainable AI</div>
+  </a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span class="label">Reach me at</span>
+    <a class="big" href="mailto:aaiza_khalid@hotmail.com">aaiza_khalid@hotmail.com</a>
+    <span class="label">Connect on</span>
+    <a class="big" href="https://www.linkedin.com/in/aaizakh/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('mousemove', function(){
+  document.body.classList.add('grid-on');
+}, { once:true });
+
+
+// reveals
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+} else { document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')); }
+window.addEventListener('load',()=>{ setTimeout(()=>{ document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')); },300); });
+// option tabs
+document.querySelectorAll('.opt-tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.opt-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.opt-panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('.opt-panel')[+t.dataset.o].classList.add('active');
+  });
+});
+// lightbox
+const lb=document.createElement('div'); lb.className='lightbox'; lb.innerHTML='<img alt="">'; document.body.appendChild(lb);
+document.querySelectorAll('figure.framed img').forEach(im=>{
+  im.addEventListener('click',()=>{ lb.querySelector('img').src=im.src; lb.classList.add('open'); });
+});
+lb.addEventListener('click',()=>lb.classList.remove('open'));
+</script>
+</body>
+</html>

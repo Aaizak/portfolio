@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dozr — Aaiza Khalid</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root{
+  --bg:#F1E9DC;
+  --bg-card:#FBF7EF;
+  --ink:#3B2A3E;
+  --ink-soft:#6B5A6E;
+  --ink-mute:#948298;
+  --coral:#C24B2F;
+  --olive:#7C8A3D;
+  --border:#E2D6C4;
+  --border-strong:#CBB89D;
+  --font-display:'Fraunces', serif;
+  --font-sans:'Space Grotesk', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --maxw:920px;
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:1.65;
+  position:relative;
+  overflow-x:hidden;
+}
+
+.grid-overlay{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(59,42,62,0.05) 79px, rgba(59,42,62,0.05) 80px);
+  opacity:0; transition:opacity .8s ease;
+}
+body.grid-on .grid-overlay{ opacity:1; }
+
+a{ color:inherit; text-decoration:none; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+/* nav */
+nav.site-nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(241,233,220,0.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);
+}
+nav.site-nav .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+nav.site-nav .mark img{ height:28px; display:block; }
+nav.site-nav .links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.02em; }
+nav.site-nav .links a{ color:var(--ink-soft); transition:color .2s; }
+nav.site-nav .links a:hover, nav.site-nav .links a.current{ color:var(--coral); }
+
+/* eyebrow */
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.05em;
+  color:var(--coral); margin-bottom:20px; display:flex; align-items:center; gap:8px;
+}
+.eyebrow::before{ content:''; width:6px; height:6px; background:var(--coral); display:inline-block; }
+
+/* headings */
+h1{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:52px; line-height:1.12; letter-spacing:-0.01em; max-width:760px; }
+h2{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:30px; line-height:1.25; margin:64px 0 20px; max-width:680px; }
+h3{ font-family:var(--font-sans); font-weight:500; font-size:16px; margin:28px 0 10px; color:var(--ink); }
+p{ color:var(--ink-soft); max-width:640px; }
+.accent{ color:var(--olive); font-style:italic; }
+
+/* hero */
+.hero{ padding:72px 0 56px; }
+.hero .sub{ font-family:var(--font-sans); font-size:17px; max-width:520px; margin-top:26px; }
+
+/* project index grid */
+.index-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:48px;
+}
+.index-grid .cell{
+  background:var(--bg-card); border:1px solid var(--border); padding:22px;
+  transition:transform .3s ease, border-color .3s ease; cursor:pointer; display:block;
+}
+.index-grid .cell:hover{ transform:translateY(-6px) rotate(-0.5deg); border-color:var(--coral); }
+.index-grid .cell:nth-child(3n+2):hover{ transform:translateY(-6px) rotate(0.5deg); }
+.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:12px; }
+.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:18px; line-height:1.3; }
+.index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:10px; display:block; }
+
+@media (max-width:720px){ .index-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:480px){ .index-grid{ grid-template-columns:1fr; } }
+
+/* case study meta row */
+.meta-row{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:24px 0; margin:36px 0 44px; max-width:760px;
+}
+.meta-row div{ font-size:13px; }
+.meta-row .label{ font-family:var(--font-mono); font-size:11px; color:var(--coral); display:block; margin-bottom:6px; }
+.meta-row .val{ color:var(--ink); font-weight:500; }
+@media (max-width:640px){ .meta-row{ grid-template-columns:1fr 1fr; } }
+
+/* stat row */
+.stat-row{ display:flex; gap:48px; flex-wrap:wrap; margin:32px 0 12px; }
+.stat{ min-width:120px; }
+.stat .num{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:38px; color:var(--coral); line-height:1; }
+.stat .label{ font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); margin-top:8px; display:block; }
+
+/* images */
+figure{ margin:28px 0; }
+figure img, figure video{ width:100%; display:block; border:1px solid var(--border); background:var(--bg-card); }
+figcaption{ font-family:var(--font-mono); font-size:12px; color:var(--ink-mute); margin-top:10px; }
+
+/* list quotes */
+blockquote{
+  font-family:var(--font-display); font-style:italic; font-size:22px; color:var(--ink);
+  border-left:2px solid var(--coral); padding-left:24px; margin:32px 0; max-width:600px;
+}
+
+ul{ color:var(--ink-soft); padding-left:20px; max-width:620px; }
+ul li{ margin-bottom:8px; }
+
+/* up next */
+.up-next{
+  margin-top:96px; padding:44px 0; border-top:1px solid var(--border);
+}
+.up-next .eyebrow{ margin-bottom:14px; }
+.up-next .title{ font-family:var(--font-display); font-style:italic; font-size:34px; transition:color .2s; }
+.up-next a:hover .title{ color:var(--coral); }
+
+/* footer */
+footer{ margin-top:80px; padding:56px 0 64px; border-top:1px solid var(--border); }
+footer .label{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); text-transform:lowercase; letter-spacing:0.05em; }
+footer .big{ font-family:var(--font-display); font-style:italic; font-size:26px; margin:8px 0 32px; display:block; }
+footer .big:hover{ color:var(--coral); }
+footer .flower{ height:48px; margin-top:24px; opacity:0.85; }
+
+section.body-content{ padding-bottom:20px; }
+
+@media (max-width:640px){
+  h1{ font-size:38px; }
+  h2{ font-size:24px; }
+  .wrap{ padding:0 20px; }
+}
+
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="../index.html"><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/608301ea3f40d42e7179f87a_signature%20(4).png" alt="Aaiza Khalid"></a>
+    <div class="links">
+      <a href="../index.html">Work</a>
+      <a href="../about.html">About</a>
+      <a href="https://drive.google.com/file/d/19e17WvqtgwXd5ikh0A21keDAwqfaJ39k/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">case study 06</div>
+    <h1>Engaging suppliers to <span class="accent">respond</span> to orders</h1>
+
+    <div class="meta-row">
+      <div><span class="label">Overview</span><span class="val">Fall 2021 internship @ Dozr</span></div>
+      <div><span class="label">Role</span><span class="val">Designer, on a team of 6+</span></div>
+      <div><span class="label">Timeline</span><span class="val">5 weeks</span></div>
+      <div><span class="label">Status</span><span class="val">In development</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap body-content">
+
+  <figure><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/61e64f54beb284549f2c65f4_Group%205844%20(1).png" alt="Dozr overview"></figure>
+
+  <h2>Overview</h2>
+  <p>Dozr is the largest equipment rental marketplace connecting suppliers with contractors. I tackled one of the biggest business problems at the time: suppliers weren't responding to enough orders in time. I redesigned Dozr's main touchpoint with suppliers — the monthly report emails.</p>
+
+  <h2>Research &amp; problem discovery</h2>
+  <p>Suppliers get <strong>10 minutes</strong> to respond to an order before it expires and goes to another supplier nearby. This was hurting suppliers, contractors, and Dozr alike.</p>
+  <p style="margin-top:16px;">1:1 interviews revealed the core issue: suppliers <strong>didn't recognize the value</strong> of incoming orders, treating the notification tablet as background noise.</p>
+
+  <h2>Exploring the opportunity</h2>
+  <p>To help suppliers see that value, I redesigned the monthly email reports Dozr sends summarizing rental activity. One supplier, after seeing their activity laid out clearly, bought hundreds of thousands of dollars more equipment to rent out.</p>
+  <figure><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/61e651cbbcd55fbf4877bfde_email.png" alt="Current email report"></figure>
+
+  <h3>Other directions considered</h3>
+  <ul>
+    <li><strong>UX:</strong> extending the 10-minute timer, giving suppliers a second chance, redesigning onboarding.</li>
+    <li><strong>Engineering:</strong> a dedicated mobile app, fixing bugs affecting the experience.</li>
+  </ul>
+
+  <h2>The redesign</h2>
+  <p>I set the target audience (senior managers at rental companies) and success metrics (click-through and response rate), then designed against Nielsen's heuristics: match system to the real world, stay consistent with existing patterns, keep it minimal, and favor recognition over recall.</p>
+
+  <h3>Sketching</h3>
+  <p>I iterated through several data-visualization approaches to highlight key stats, landing on a minimal, compact version to iterate further.</p>
+  <figure><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/61e657dcf052b3996d0e3921_Frame%205820.png" alt="Sketches"></figure>
+
+  <h3>Refining</h3>
+  <p>High-fidelity iterations combined minimalism, familiar terminology, and a single central focus, validated through guerilla testing and stakeholder review.</p>
+  <figure><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/61e6589a9e6286c4409d072d_Frame%205641%20(1).png" alt="Refined iterations"></figure>
+
+  <h2>New design</h2>
+  <p>Because it's an email, every detail — spacing, terminology, hierarchy — went through several rounds of scrutiny.</p>
+  <figure><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/61e3026dbda4aac48fb240f4_Group%205803.png" alt="Final email design"></figure>
+
+  <h2>Technical implementation</h2>
+  <p>The original report took days to build by hand, so I worked with marketing and engineering to automate the entire send process.</p>
+  <figure><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/61e302fc8ff77b7c59f2ca6e_Group%205783%20(1).png" alt="Automation flow"></figure>
+
+  <h2>Learnings</h2>
+  <p>I learned the value of designing collaboratively rather than in isolation. Next step: validate the redesign through both qualitative and quantitative testing.</p>
+
+</main>
+
+<div class="wrap">
+  <a class="up-next" href="onboarding.html" style="display:block;">
+    <div class="eyebrow">up next</div>
+    <div class="title">A self-serve onboarding flow</div>
+  </a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span class="label">Reach me at</span>
+    <a class="big" href="mailto:aaiza_khalid@hotmail.com">aaiza_khalid@hotmail.com</a>
+    <span class="label">Connect on</span>
+    <a class="big" href="https://www.linkedin.com/in/aaizakh/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('mousemove', function(){
+  document.body.classList.add('grid-on');
+}, { once:true });
+
+</script>
+</body>
+</html>
