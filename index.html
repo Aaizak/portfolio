@@ -86,7 +86,7 @@ p{ color:var(--ink-soft); max-width:640px; }
   display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:48px;
 }
 .index-grid .cell{
-  background:var(--bg-card); border:1px solid var(--border); padding:22px;
+  background:var(--bg-card); border:1px solid var(--border); padding:0; overflow:hidden;
   transition:transform .3s ease, border-color .3s ease; cursor:pointer; display:block;
 }
 .index-grid .cell:hover{ transform:translateY(-6px) rotate(-0.5deg); border-color:var(--coral); }
@@ -94,6 +94,24 @@ p{ color:var(--ink-soft); max-width:640px; }
 .index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:12px; }
 .index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:18px; line-height:1.3; }
 .index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:10px; display:block; }
+.index-grid .cell .cell-body{ padding:20px 22px 22px; }
+
+/* mini framed thumb, reuses the device-chrome pattern from case studies */
+.index-grid .thumb{ background:#2A2130; padding:9px 9px 0; }
+.index-grid .thumb .bar{ display:flex; gap:5px; padding-bottom:7px; }
+.index-grid .thumb .bar i{ width:6px; height:6px; border-radius:50%; background:#584A5E; display:block; }
+.index-grid .thumb .thumb-media{
+  width:100%; aspect-ratio:16/10; object-fit:cover; object-position:top;
+  border-radius:6px 6px 0 0; display:block; background:#1E1722;
+}
+.index-grid .thumb .quad-mini{
+  width:100%; aspect-ratio:16/10; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr;
+  gap:4px; padding-bottom:9px;
+}
+.index-grid .thumb .qc{ border-radius:5px; }
+.index-grid .thumb .qc-good{ background:rgba(124,138,61,0.28); border:1px solid rgba(124,138,61,0.45); }
+.index-grid .thumb .qc-red{ background:rgba(194,75,47,0.22); border:1px solid rgba(194,75,47,0.4); }
+.index-grid .thumb .qc-amber{ background:rgba(194,75,47,0.12); border:1px dashed rgba(194,75,47,0.55); }
 
 @media (max-width:720px){ .index-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:480px){ .index-grid{ grid-template-columns:1fr; } }
@@ -209,27 +227,57 @@ section.body-content{ padding-bottom:20px; }
   <div class="index-grid">
 
     <a class="cell" href="work/aviary.html">
-      <div class="num">01</div>
-      <div class="name">Aviary AI</div>
-      <span class="tag">Voice-agent call quality monitoring</span>
+      <div class="thumb">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <div class="quad-mini" aria-hidden="true">
+          <div class="qc qc-good"></div>
+          <div class="qc qc-red"></div>
+          <div class="qc qc-amber"></div>
+          <div class="qc qc-red"></div>
+        </div>
+      </div>
+      <div class="cell-body">
+        <div class="num">01</div>
+        <div class="name">Aviary AI</div>
+        <span class="tag">Voice-agent call quality monitoring</span>
+      </div>
     </a>
 
     <a class="cell" href="work/bithuman.html">
-      <div class="num">02</div>
-      <div class="name">bitHuman</div>
-      <span class="tag">Prompt to avatar tool</span>
+      <div class="thumb">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <video class="thumb-media" autoplay muted loop playsinline
+          src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f%2F68279f8897123caac92171d0_1726096624554-transcode.mp4"></video>
+      </div>
+      <div class="cell-body">
+        <div class="num">02</div>
+        <div class="name">bitHuman</div>
+        <span class="tag">Prompt to avatar tool</span>
+      </div>
     </a>
 
     <a class="cell" href="work/unit21.html">
-      <div class="num">03</div>
-      <div class="name">Unit21</div>
-      <span class="tag">Fighting check fraud</span>
+      <div class="thumb">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <img class="thumb-media" src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/66452d4e4a1a9e37d4fb5c0b_Group%20633799.png" alt="Unit21 overview">
+      </div>
+      <div class="cell-body">
+        <div class="num">03</div>
+        <div class="name">Unit21</div>
+        <span class="tag">Fighting check fraud</span>
+      </div>
     </a>
 
     <a class="cell" href="work/alert-scores.html">
-      <div class="num">04</div>
-      <div class="name">Alert Scores</div>
-      <span class="tag">UX of explainable AI</span>
+      <div class="thumb">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <img class="thumb-media" src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/666cafab526a6b7d860ba865_Group%20633791.png" alt="Alert Scores overview">
+      </div>
+      <div class="cell-body">
+        <div class="num">04</div>
+        <div class="name">Alert Scores</div>
+        <span class="tag">UX of explainable AI</span>
+      </div>
     </a>
 
   </div>
