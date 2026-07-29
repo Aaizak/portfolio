@@ -98,6 +98,23 @@ p{ color:var(--ink-soft); max-width:640px; }
 @media (max-width:720px){ .index-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:480px){ .index-grid{ grid-template-columns:1fr; } }
 
+/* archive row */
+.archive{ margin-top:64px; }
+.archive h3{ color:var(--ink-mute); }
+.archive-list{ display:flex; flex-direction:column; border-top:1px solid var(--border); }
+.archive-list a{
+  display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+  padding:14px 4px; border-bottom:1px solid var(--border);
+  transition:padding-left .2s ease, border-color .2s ease;
+}
+.archive-list a:hover{ padding-left:10px; border-color:var(--border-strong); }
+.archive-list a:hover .name{ color:var(--coral); }
+.archive-list .name{ font-family:var(--font-display); font-style:italic; font-size:16px; transition:color .2s; }
+.archive-list .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); white-space:nowrap; }
+@media (max-width:480px){
+  .archive-list a{ flex-direction:column; align-items:flex-start; gap:4px; }
+}
+
 /* case study meta row */
 .meta-row{
   display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
@@ -215,30 +232,28 @@ section.body-content{ padding-bottom:20px; }
       <span class="tag">UX of explainable AI</span>
     </a>
 
-    <a class="cell" href="work/alnoor.html">
-      <div class="num">05</div>
-      <div class="name">AlNoor</div>
-      <span class="tag">Clinical case management</span>
-    </a>
+  </div>
 
-    <a class="cell" href="work/tobyexpo.html">
-      <div class="num">06</div>
-      <div class="name">TobyExpo</div>
-      <span class="tag">Immersive museum app</span>
-    </a>
-
-    <a class="cell" href="work/dozr.html">
-      <div class="num">07</div>
-      <div class="name">Dozr</div>
-      <span class="tag">Engaging equipment suppliers</span>
-    </a>
-
-    <a class="cell" href="work/onboarding.html">
-      <div class="num">08</div>
-      <div class="name">Onboarding</div>
-      <span class="tag">Self-serve partner flow</span>
-    </a>
-
+  <div class="archive">
+    <h3>Archive</h3>
+    <div class="archive-list">
+      <a href="work/alnoor.html">
+        <span class="name">AlNoor</span>
+        <span class="tag">Clinical case management</span>
+      </a>
+      <a href="work/tobyexpo.html">
+        <span class="name">TobyExpo</span>
+        <span class="tag">Immersive museum app</span>
+      </a>
+      <a href="work/dozr.html">
+        <span class="name">Dozr</span>
+        <span class="tag">Engaging equipment suppliers</span>
+      </a>
+      <a href="work/onboarding.html">
+        <span class="name">Onboarding</span>
+        <span class="tag">Self-serve partner flow</span>
+      </a>
+    </div>
   </div>
 </main>
 
