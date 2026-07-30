@@ -113,6 +113,10 @@ p{ color:var(--ink-soft); max-width:640px; }
 .index-grid .thumb .qc-red{ background:rgba(194,75,47,0.22); border:1px solid rgba(194,75,47,0.4); }
 .index-grid .thumb .qc-amber{ background:rgba(194,75,47,0.12); border:1px dashed rgba(194,75,47,0.55); }
 
+/* flush variant: for source images that already include their own frame/chrome */
+.index-grid .thumb.flush{ padding:0; background:var(--bg-card); }
+.index-grid .thumb.flush .thumb-media{ border-radius:0; object-position:center; }
+
 @media (max-width:720px){
   .index-grid .cell{ flex-direction:column; }
   .index-grid .thumb{ flex:0 0 auto; aspect-ratio:16/9; }
@@ -241,8 +245,7 @@ section.body-content{ padding-bottom:20px; }
     </a>
 
     <a class="cell" href="work/bithuman.html">
-      <div class="thumb">
-        <div class="bar"><i></i><i></i><i></i></div>
+      <div class="thumb flush">
         <img class="thumb-media" src="images/bithuman-thumb.webp" alt="bitHuman avatar generation UI">
       </div>
       <div class="cell-body">
