@@ -83,7 +83,7 @@ p{ color:var(--ink-soft); max-width:640px; }
 
 /* project index grid — horizontal rows */
 .index-grid{
-  display:flex; flex-direction:column; gap:16px; margin-top:48px;
+  display:flex; flex-direction:column; gap:28px; margin-top:48px;
 }
 .index-grid .cell{
   background:var(--bg-card); border:1px solid var(--border); padding:0; overflow:hidden;
@@ -91,14 +91,14 @@ p{ color:var(--ink-soft); max-width:640px; }
   display:flex; align-items:stretch;
 }
 .index-grid .cell:hover{ transform:translateY(-4px); border-color:var(--coral); }
-.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:12px; }
-.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:22px; line-height:1.3; }
-.index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:10px; display:block; }
-.index-grid .cell .cell-body{ padding:22px 28px; flex:1; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:14px; }
+.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:24px; line-height:1.3; }
+.index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:12px; display:block; }
+.index-grid .cell .cell-body{ padding:40px 44px; flex:1; display:flex; flex-direction:column; justify-content:center; min-width:0; }
 
 /* mini framed thumb, reuses the device-chrome pattern from case studies */
-.index-grid .thumb{ background:#2A2130; padding:9px 9px 0; flex:0 0 320px; display:flex; flex-direction:column; }
-.index-grid .thumb .bar{ display:flex; gap:5px; padding-bottom:7px; }
+.index-grid .thumb{ background:#2A2130; padding:18px 18px 0; flex:0 0 340px; display:flex; flex-direction:column; }
+.index-grid .thumb .bar{ display:flex; gap:5px; padding-bottom:12px; }
 .index-grid .thumb .bar i{ width:6px; height:6px; border-radius:50%; background:#584A5E; display:block; }
 .index-grid .thumb .thumb-media{
   width:100%; flex:1; object-fit:cover; object-position:top;
