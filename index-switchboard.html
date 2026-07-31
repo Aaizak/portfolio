@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aaiza Khalid — Product Designer (Switchboard)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root{
+  --bg:#F1E9DC;
+  --bg-card:#FBF7EF;
+  --ink:#3B2A3E;
+  --ink-soft:#6B5A6E;
+  --ink-mute:#948298;
+  --coral:#C24B2F;
+  --olive:#7C8A3D;
+  --border:#E2D6C4;
+  --border-strong:#CBB89D;
+  --font-display:'Fraunces', serif;
+  --font-sans:'Space Grotesk', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --maxw:920px;
+
+  /* switchboard-only palette */
+  --panel-bg:#241C28;
+  --panel-raised:#2E2433;
+  --panel-groove:#1A141E;
+  --amber:#C99A2E;
+  --readout:#E8DFD2;
+  --readout-dim:#8A7B90;
+  --grid-line:rgba(232,223,210,0.06);
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:1.65;
+  position:relative;
+  overflow-x:hidden;
+}
+
+a{ color:inherit; text-decoration:none; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+/* nav (unchanged from index.html) */
+nav.site-nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(241,233,220,0.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);
+}
+nav.site-nav .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+nav.site-nav .mark img{ height:28px; display:block; }
+nav.site-nav .links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.02em; }
+nav.site-nav .links a{ color:var(--ink-soft); transition:color .2s; }
+nav.site-nav .links a:hover, nav.site-nav .links a.current{ color:var(--coral); }
+
+/* eyebrow / headings (unchanged from index.html) */
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.05em;
+  color:var(--coral); margin-bottom:20px; display:flex; align-items:center; gap:8px;
+}
+.eyebrow::before{ content:''; width:6px; height:6px; background:var(--coral); display:inline-block; }
+h1{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:52px; line-height:1.12; letter-spacing:-0.01em; max-width:760px; }
+h3{ font-family:var(--font-sans); font-weight:500; font-size:16px; margin:28px 0 10px; color:var(--ink); }
+p{ color:var(--ink-soft); max-width:640px; }
+.accent{ color:var(--olive); font-style:italic; }
+
+/* archive row (unchanged from index.html) */
+.archive{ margin-top:64px; }
+.archive h3{ color:var(--ink-mute); }
+.archive-list{ display:flex; flex-direction:column; border-top:1px solid var(--border); }
+.archive-list a{
+  display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+  padding:14px 4px; border-bottom:1px solid var(--border);
+  transition:padding-left .2s ease, border-color .2s ease;
+}
+.archive-list a:hover{ padding-left:10px; border-color:var(--border-strong); }
+.archive-list a:hover .name{ color:var(--coral); }
+.archive-list .name{ font-family:var(--font-display); font-style:italic; font-size:16px; transition:color .2s; }
+.archive-list .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); white-space:nowrap; }
+@media (max-width:480px){
+  .archive-list a{ flex-direction:column; align-items:flex-start; gap:4px; }
+}
+
+/* footer (unchanged from index.html) */
+footer{ margin-top:80px; padding:56px 0 64px; border-top:1px solid var(--border); }
+footer .label{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); text-transform:lowercase; letter-spacing:0.05em; }
+footer .big{ font-family:var(--font-display); font-style:italic; font-size:26px; margin:8px 0 32px; display:block; }
+footer .big:hover{ color:var(--coral); }
+
+section.body-content{ padding-bottom:20px; }
+
+@media (max-width:640px){
+  .wrap{ padding:0 20px; }
+}
+
+/* ============================================= */
+/* THE SWITCHBOARD                                */
+/* ============================================= */
+.board-outer{
+  position:relative; width:100%; background:var(--panel-bg); overflow:hidden;
+}
+.board-outer::before{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 40px);
+}
+.board-outer::after{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.4) 100%);
+}
+.board-inner{ max-width:1400px; margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+/* master bar */
+.master-bar{
+  height:64px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+  border-bottom:1px solid var(--coral);
+  opacity:0; animation:barIn .3s ease forwards;
+}
+@keyframes barIn{ to{ opacity:1; } }
+.mb-left{ font-family:var(--font-mono); font-size:13px; letter-spacing:0.2em; color:var(--readout); justify-self:start; }
+.mb-center{ font-family:var(--font-mono); font-size:11px; color:var(--readout-dim); letter-spacing:0.06em; justify-self:center; white-space:nowrap; }
+.mb-right{ display:flex; align-items:center; gap:10px; justify-self:end; font-family:var(--font-mono); font-size:11px; color:var(--readout-dim); letter-spacing:0.04em; }
+.live-dot{ width:7px; height:7px; border-radius:50%; background:var(--olive); display:inline-block; }
+.live-dot.pulsing{ animation:livePulse 2s ease-in-out infinite; }
+@keyframes livePulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
+.mb-clock{ color:var(--readout); min-width:70px; text-align:right; }
+
+/* hero, restated for this context */
+.board-hero{ padding:80px 0; }
+.board-hero .eyebrow{ color:var(--coral); }
+.board-hero h1{ color:var(--readout); font-size:48px; }
+.board-hero .sub{ font-family:var(--font-sans); font-size:16px; color:var(--readout-dim); max-width:620px; margin-top:24px; }
+
+/* channel modules */
+.channels{ display:flex; flex-direction:column; gap:2px; background:var(--panel-groove); margin-bottom:2px; }
+
+/* boot reveal lives on this non-interactive wrapper, not on .channel itself:
+   animation fill-mode:forwards otherwise permanently outranks the later
+   hover-dim opacity rule in the cascade, regardless of specificity */
+.channel-boot{
+  opacity:0; transform:translateX(-20px); animation:moduleIn .4s ease forwards;
+}
+@keyframes moduleIn{ to{ opacity:1; transform:none; } }
+.channel-boot:nth-child(1){ animation-delay:.30s; }
+.channel-boot:nth-child(2){ animation-delay:.42s; }
+.channel-boot:nth-child(3){ animation-delay:.54s; }
+.channel-boot:nth-child(4){ animation-delay:.66s; }
+
+.channel{
+  display:flex; align-items:stretch; height:150px; background:var(--panel-bg);
+  position:relative; text-decoration:none; color:inherit; overflow:hidden;
+  transition:background .2s ease, opacity .2s ease;
+}
+
+.channel::before{
+  content:''; position:absolute; left:0; top:0; width:2px; height:0; background:var(--coral);
+  transition:height .2s ease;
+}
+.channel:hover, .channel.hovered{ background:var(--panel-raised); cursor:crosshair; }
+.channel:hover::before, .channel.hovered::before{ height:100%; }
+.channels:hover .channel-boot:not(:hover) .channel{ opacity:.7; }
+.channel.dimmed{ opacity:.7; }
+
+.ch-zone{ display:flex; }
+
+/* zone 1: channel id */
+.ch-id{
+  flex:0 0 110px; flex-direction:column; justify-content:center;
+  padding-left:32px; position:relative;
+}
+.ch-id::after{
+  content:''; position:absolute; right:0; top:24%; bottom:24%; width:1px; background:var(--grid-line);
+}
+.ch-num{ font-family:var(--font-mono); font-size:32px; color:var(--coral); line-height:1; }
+.ch-ch{ font-family:var(--font-mono); font-size:10px; color:var(--readout-dim); margin-top:8px; letter-spacing:0.06em; }
+
+/* zone 2: signal meter */
+.ch-meter{
+  flex:0 0 140px; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+}
+.meter{ display:flex; flex-direction:column-reverse; gap:2px; }
+.segment{ width:22px; height:6px; border-radius:1px; background:var(--panel-groove); transition:background .3s ease; }
+.segment.filled{ background:var(--olive); }
+.segment.amber{ background:var(--amber); }
+.meter-label{ font-family:var(--font-mono); font-size:9px; color:var(--readout-dim); letter-spacing:0.08em; }
+
+/* zone 3: project info */
+.ch-info{ flex:1; min-width:0; flex-direction:column; justify-content:center; padding:0 28px; gap:8px; }
+.ch-name{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:28px; color:var(--readout); }
+.ch-desc{ font-family:var(--font-sans); font-size:14px; color:var(--readout-dim); max-width:none; }
+.ch-chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:2px; }
+.chip{
+  font-family:var(--font-mono); font-size:10px; color:var(--readout); background:var(--panel-groove);
+  padding:5px 9px; border-radius:3px; letter-spacing:0.03em; white-space:nowrap;
+}
+
+/* zone 4: status + entry */
+.ch-status{ flex:0 0 200px; flex-direction:column; justify-content:center; align-items:flex-start; gap:14px; padding-right:32px; }
+.status-readout{ font-family:var(--font-mono); font-size:11px; color:var(--olive); letter-spacing:0.03em; }
+.ch-key{
+  font-family:var(--font-mono); font-size:11px; color:var(--readout); background:var(--panel-raised);
+  border:1px solid var(--grid-line); border-top:1px solid rgba(232,223,210,0.2);
+  padding:10px 16px; border-radius:4px; letter-spacing:0.03em; display:inline-block;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.channel:hover .ch-key, .channel.hovered .ch-key{ transform:translateY(1px); border-color:var(--coral); }
+
+/* reduced motion: skip boot, keep hover states */
+@media (prefers-reduced-motion:reduce){
+  .channel-boot, .master-bar{ animation:none !important; opacity:1 !important; transform:none !important; }
+  .live-dot{ animation:none !important; }
+}
+
+/* mobile */
+@media (max-width:720px){
+  .master-bar{ padding:0 4px; }
+  .mb-center{ display:none; }
+  .board-hero{ padding:56px 0; }
+  .board-hero h1{ font-size:32px; }
+
+  .channel{ flex-direction:column; height:auto; min-height:180px; padding:22px 0; }
+  .ch-id{ flex:none; flex-direction:row; align-items:baseline; gap:10px; padding-left:20px; order:1; }
+  .ch-id::after{ display:none; }
+  .ch-info{ flex:none; padding:14px 20px 0; order:2; }
+  .ch-meter{ flex:none; flex-direction:row; justify-content:flex-start; padding:12px 20px 0; gap:12px; }
+  .meter{ flex-direction:row; }
+  .segment{ width:6px; height:14px; }
+  .ch-status{ flex:none; flex-direction:row; align-items:center; justify-content:space-between; padding:16px 20px 0; order:4; }
+  .ch-meter{ order:3; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/608301ea3f40d42e7179f87a_signature%20(4).png" alt="Aaiza Khalid"></a>
+    <div class="links">
+      <a href="index.html" class="current">Work</a>
+      <a href="about.html">About</a>
+      <a href="https://drive.google.com/file/d/19e17WvqtgwXd5ikh0A21keDAwqfaJ39k/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </div>
+</nav>
+
+<div class="board-outer">
+  <div class="board-inner">
+
+    <div class="master-bar">
+      <div class="mb-left">AAIZA KHALID</div>
+      <div class="mb-center">SELECTED WORK / 4 CHANNELS ACTIVE</div>
+      <div class="mb-right">
+        <span class="live-dot" id="live-dot"></span>
+        <span>LIVE</span>
+        <span class="mb-clock" id="clock">00:00:00</span>
+      </div>
+    </div>
+
+    <header class="board-hero">
+      <div class="eyebrow">PRODUCT DESIGNER &amp; ENGINEER</div>
+      <h1>I design the interfaces that make AI systems feel <span class="accent">trustworthy</span>.</h1>
+      <p class="sub">I led design at a voice-AI startup, built the world's first prompt-to-avatar tool, and shipped software that helps fight $24 billion in check fraud. I work at the edge of design and code, on products where the hard part is earning a user's trust.</p>
+    </header>
+
+    <div class="channels">
+
+      <div class="channel-boot">
+        <a class="channel" href="work/aviary.html" data-baseline="9">
+          <div class="ch-zone ch-id">
+            <div class="ch-num">01</div>
+            <div class="ch-ch">CH</div>
+          </div>
+          <div class="ch-zone ch-meter">
+            <div class="meter">
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+            <div class="meter-label">SIGNAL</div>
+          </div>
+          <div class="ch-zone ch-info">
+            <div class="ch-name">Aviary AI</div>
+            <p class="ch-desc">Voice-agent call quality monitoring</p>
+            <div class="ch-chips">
+              <span class="chip">20 CLIENTS</span>
+              <span class="chip">80&rarr;95% AGREEMENT</span>
+              <span class="chip">5 CREDIT UNIONS</span>
+            </div>
+          </div>
+          <div class="ch-zone ch-status">
+            <div class="status-readout">&#9679; OPERATIONAL</div>
+            <div class="ch-key">OPEN CHANNEL &rarr;</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="channel-boot">
+        <a class="channel" href="work/bithuman.html" data-baseline="8">
+          <div class="ch-zone ch-id">
+            <div class="ch-num">02</div>
+            <div class="ch-ch">CH</div>
+          </div>
+          <div class="ch-zone ch-meter">
+            <div class="meter">
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+            <div class="meter-label">SIGNAL</div>
+          </div>
+          <div class="ch-zone ch-info">
+            <div class="ch-name">bitHuman</div>
+            <p class="ch-desc">Prompt to avatar generation</p>
+            <div class="ch-chips">
+              <span class="chip">WORLD FIRST</span>
+              <span class="chip">PROMPT&rarr;AVATAR</span>
+            </div>
+          </div>
+          <div class="ch-zone ch-status">
+            <div class="status-readout">&#9679; OPERATIONAL</div>
+            <div class="ch-key">OPEN CHANNEL &rarr;</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="channel-boot">
+        <a class="channel" href="work/unit21.html" data-baseline="7">
+          <div class="ch-zone ch-id">
+            <div class="ch-num">03</div>
+            <div class="ch-ch">CH</div>
+          </div>
+          <div class="ch-zone ch-meter">
+            <div class="meter">
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+            <div class="meter-label">SIGNAL</div>
+          </div>
+          <div class="ch-zone ch-info">
+            <div class="ch-name">Unit21</div>
+            <p class="ch-desc">Fighting check fraud</p>
+            <div class="ch-chips">
+              <span class="chip">$24B FRAUD</span>
+              <span class="chip">3 APPROACHES TESTED</span>
+            </div>
+          </div>
+          <div class="ch-zone ch-status">
+            <div class="status-readout">&#9679; OPERATIONAL</div>
+            <div class="ch-key">OPEN CHANNEL &rarr;</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="channel-boot">
+        <a class="channel" href="work/alert-scores.html" data-baseline="7">
+          <div class="ch-zone ch-id">
+            <div class="ch-num">04</div>
+            <div class="ch-ch">CH</div>
+          </div>
+          <div class="ch-zone ch-meter">
+            <div class="meter">
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment filled"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+            <div class="meter-label">SIGNAL</div>
+          </div>
+          <div class="ch-zone ch-info">
+            <div class="ch-name">Alert Scores</div>
+            <p class="ch-desc">The UX of explainable AI</p>
+            <div class="ch-chips">
+              <span class="chip">EXPLAINABLE AI</span>
+              <span class="chip">TRUST BEFORE AUTOMATION</span>
+            </div>
+          </div>
+          <div class="ch-zone ch-status">
+            <div class="status-readout">&#9679; OPERATIONAL</div>
+            <div class="ch-key">OPEN CHANNEL &rarr;</div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<main class="wrap body-content">
+  <div class="archive">
+    <h3>Archive</h3>
+    <div class="archive-list">
+      <a href="work/alnoor.html">
+        <span class="name">AlNoor</span>
+        <span class="tag">Clinical case management</span>
+      </a>
+      <a href="work/tobyexpo.html">
+        <span class="name">TobyExpo</span>
+        <span class="tag">Immersive museum app</span>
+      </a>
+      <a href="work/dozr.html">
+        <span class="name">Dozr</span>
+        <span class="tag">Engaging equipment suppliers</span>
+      </a>
+      <a href="work/onboarding.html">
+        <span class="name">Onboarding</span>
+        <span class="tag">Self-serve partner flow</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="label">Reach me at</span>
+    <a class="big" href="mailto:aaiza_khalid@hotmail.com">aaiza_khalid@hotmail.com</a>
+    <span class="label">Connect on</span>
+    <a class="big" href="https://www.linkedin.com/in/aaizakh/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  var isMobile = window.matchMedia('(max-width:720px)').matches;
+  var channelsEl = document.querySelector('.channels');
+  var channels = Array.prototype.slice.call(document.querySelectorAll('.channel'));
+  var stagger = isMobile ? 80 : 120;
+
+  /* ---------- clock ---------- */
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+  function tickClock(){
+    var d = new Date();
+    var el = document.getElementById('clock');
+    if(el) el.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  /* ---------- meter rendering ---------- */
+  function renderMeter(ch, level){
+    var segs = ch.querySelectorAll('.segment');
+    segs.forEach(function(seg, i){
+      seg.classList.remove('filled', 'amber');
+      if(i < level){ seg.classList.add(i >= 10 ? 'amber' : 'filled'); }
+    });
+  }
+
+  /* ---------- boot: re-stagger delays for mobile, animate meters up ---------- */
+  var channelBoots = Array.prototype.slice.call(document.querySelectorAll('.channel-boot'));
+  if(!reducedMotion){
+    channelBoots.forEach(function(wrap, i){
+      wrap.style.animationDelay = (300 + i * stagger) + 'ms';
+    });
+
+    var masterBar = document.querySelector('.master-bar');
+    if(masterBar) masterBar.style.animationDelay = '0ms';
+
+    channels.forEach(function(ch, i){
+      var baseline = parseInt(ch.getAttribute('data-baseline'), 10) || 6;
+      renderMeter(ch, 0);
+      var startDelay = 300 + i * stagger + 400;
+      setTimeout(function(){
+        var start = performance.now();
+        var duration = 500;
+        function frame(now){
+          var t = Math.min(1, (now - start) / duration);
+          var eased = 1 - Math.pow(1 - t, 3);
+          renderMeter(ch, Math.round(eased * baseline));
+          if(t < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }, startDelay);
+    });
+
+    var totalBoot = 300 + 3 * stagger + 400 + 500;
+    setTimeout(startLiveState, totalBoot);
+  }
+  /* reduced motion: segments already render correct baseline from static HTML, nothing to do */
+
+  /* ---------- live state: pulse dot, fluctuate meters, ambient flicker ---------- */
+  function startLiveState(){
+    var dot = document.getElementById('live-dot');
+    if(dot) dot.classList.add('pulsing');
+    startFluctuation();
+    scheduleFlicker();
+  }
+
+  function startFluctuation(){
+    setInterval(function(){
+      channels.forEach(function(ch){
+        var baseline = parseInt(ch.getAttribute('data-baseline'), 10) || 6;
+        var range = ch.classList.contains('hovered') ? 3 : 2;
+        var delta = Math.round(Math.random() * range * 2) - range;
+        var level = Math.max(1, Math.min(12, baseline + delta));
+        renderMeter(ch, level);
+      });
+    }, 400);
+  }
+
+  function scheduleFlicker(){
+    var delay = 8000 + Math.random() * 6000;
+    setTimeout(function(){
+      var ch = channels[Math.floor(Math.random() * channels.length)];
+      var statusEl = ch.querySelector('.status-readout');
+      if(statusEl){
+        statusEl.style.transition = 'opacity .2s ease';
+        statusEl.style.opacity = '0.4';
+        setTimeout(function(){ statusEl.style.opacity = '1'; }, 200);
+      }
+      scheduleFlicker();
+    }, delay);
+  }
+
+  /* ---------- chip scramble on activation ---------- */
+  var scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  function scrambleChip(chip){
+    if(!chip || chip.dataset.scrambling) return;
+    chip.dataset.scrambling = '1';
+    var real = chip.textContent;
+    var start = performance.now();
+    var duration = 300;
+    function frame(now){
+      var elapsed = now - start;
+      if(elapsed >= duration){
+        chip.textContent = real;
+        delete chip.dataset.scrambling;
+        return;
+      }
+      var out = '';
+      for(var i = 0; i < real.length; i++){
+        var c = real[i];
+        out += /[A-Za-z0-9]/.test(c) ? scrambleChars[Math.floor(Math.random() * scrambleChars.length)] : c;
+      }
+      chip.textContent = out;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- activation (hover / touch), shared by mouse and touch ---------- */
+  function setActive(ch){
+    channels.forEach(function(c){
+      c.classList.remove('hovered');
+      c.classList.toggle('dimmed', !!ch && c !== ch);
+    });
+    if(ch){
+      ch.classList.add('hovered');
+      var firstChip = ch.querySelector('.chip');
+      if(firstChip) scrambleChip(firstChip);
+    }
+  }
+
+  channels.forEach(function(ch){
+    ch.addEventListener('mouseenter', function(){ if(!isTouch) setActive(ch); });
+    ch.addEventListener('mouseleave', function(){ if(!isTouch) setActive(null); });
+
+    ch.addEventListener('click', function(e){
+      if(!isTouch) return;
+      var isKey = e.target.closest('.ch-key');
+      if(isKey) return;
+      if(!ch.classList.contains('hovered')){
+        e.preventDefault();
+        setActive(ch);
+      }
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(isTouch && channelsEl && !channelsEl.contains(e.target)){
+      setActive(null);
+    }
+  });
+})();
+</script>
+</body>
+</html>
