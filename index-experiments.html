@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aaiza Khalid — Product Designer (Layout Experiments)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root{
+  --bg:#F1E9DC;
+  --bg-card:#FBF7EF;
+  --ink:#3B2A3E;
+  --ink-soft:#6B5A6E;
+  --ink-mute:#948298;
+  --coral:#C24B2F;
+  --olive:#7C8A3D;
+  --border:#E2D6C4;
+  --border-strong:#CBB89D;
+  --font-display:'Fraunces', serif;
+  --font-sans:'Space Grotesk', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --maxw:920px;
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:1.65;
+  position:relative;
+  overflow-x:hidden;
+}
+
+.grid-overlay{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(59,42,62,0.05) 79px, rgba(59,42,62,0.05) 80px);
+  opacity:0; transition:opacity .8s ease;
+}
+body.grid-on .grid-overlay{ opacity:1; }
+
+a{ color:inherit; text-decoration:none; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+/* nav */
+nav.site-nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(241,233,220,0.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);
+}
+nav.site-nav .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+nav.site-nav .mark img{ height:28px; display:block; }
+nav.site-nav .links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.02em; }
+nav.site-nav .links a{ color:var(--ink-soft); transition:color .2s; }
+nav.site-nav .links a:hover, nav.site-nav .links a.current{ color:var(--coral); }
+
+/* eyebrow */
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.05em;
+  color:var(--coral); margin-bottom:20px; display:flex; align-items:center; gap:8px;
+}
+.eyebrow::before{ content:''; width:6px; height:6px; background:var(--coral); display:inline-block; }
+
+/* headings */
+h1{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:52px; line-height:1.12; letter-spacing:-0.01em; max-width:760px; }
+h2{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:30px; line-height:1.25; margin:64px 0 20px; max-width:680px; }
+h3{ font-family:var(--font-sans); font-weight:500; font-size:16px; margin:28px 0 10px; color:var(--ink); }
+p{ color:var(--ink-soft); max-width:640px; }
+.accent{ color:var(--olive); font-style:italic; }
+
+/* hero */
+.hero{ padding:72px 0 56px; }
+.hero .sub{ font-family:var(--font-sans); font-size:17px; max-width:520px; margin-top:26px; }
+
+/* project index grid — horizontal rows (Current layout) */
+.index-grid{
+  display:flex; flex-direction:column; gap:28px; margin-top:48px;
+}
+.index-grid .cell{
+  background:var(--bg-card); border:1px solid var(--border); padding:0; overflow:hidden;
+  transition:transform .3s ease, border-color .3s ease; cursor:pointer;
+  display:flex; align-items:stretch;
+}
+.index-grid .cell:hover{ transform:translateY(-4px); border-color:var(--coral); }
+.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:14px; }
+.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:24px; line-height:1.3; }
+.index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:12px; display:block; }
+.index-grid .cell .cell-body{ padding:40px 44px; flex:1; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+
+.index-grid .thumb{ background:#2A2130; padding:18px 18px 0; flex:0 0 340px; display:flex; flex-direction:column; }
+.index-grid .thumb .bar{ display:flex; gap:5px; padding-bottom:12px; }
+.index-grid .thumb .bar i{ width:6px; height:6px; border-radius:50%; background:#584A5E; display:block; }
+.index-grid .thumb .thumb-media{
+  width:100%; flex:1; object-fit:cover; object-position:top;
+  border-radius:6px 6px 0 0; display:block; background:#1E1722;
+}
+.index-grid .thumb.flush{ padding:0; background:var(--bg-card); }
+.index-grid .thumb.flush .thumb-media{ border-radius:0; object-position:center; }
+
+@media (max-width:720px){
+  .index-grid .cell{ flex-direction:column; }
+  .index-grid .thumb{ flex:0 0 auto; aspect-ratio:16/9; }
+}
+
+/* archive row */
+.archive{ margin-top:64px; }
+.archive h3{ color:var(--ink-mute); }
+.archive-list{ display:flex; flex-direction:column; border-top:1px solid var(--border); }
+.archive-list a{
+  display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+  padding:14px 4px; border-bottom:1px solid var(--border);
+  transition:padding-left .2s ease, border-color .2s ease;
+}
+.archive-list a:hover{ padding-left:10px; border-color:var(--border-strong); }
+.archive-list a:hover .name{ color:var(--coral); }
+.archive-list .name{ font-family:var(--font-display); font-style:italic; font-size:16px; transition:color .2s; }
+.archive-list .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); white-space:nowrap; }
+@media (max-width:480px){
+  .archive-list a{ flex-direction:column; align-items:flex-start; gap:4px; }
+}
+
+/* footer */
+footer{ margin-top:80px; padding:56px 0 64px; border-top:1px solid var(--border); }
+footer .label{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); text-transform:lowercase; letter-spacing:0.05em; }
+footer .big{ font-family:var(--font-display); font-style:italic; font-size:26px; margin:8px 0 32px; display:block; }
+footer .big:hover{ color:var(--coral); }
+
+section.body-content{ padding-bottom:20px; }
+
+@media (max-width:640px){
+  h1{ font-size:38px; }
+  h2{ font-size:24px; }
+  .wrap{ padding:0 20px; }
+}
+
+/* entrance beat */
+.hero h1, .hero .sub, .hero .eyebrow{ opacity:0; transform:translateY(16px); animation:heroIn .8s ease forwards; }
+.hero .eyebrow{ animation-delay:.05s; }
+.hero h1{ animation-delay:.18s; }
+.hero .sub{ animation-delay:.34s; }
+@keyframes heroIn{ to{ opacity:1; transform:none; } }
+.index-grid .cell{ position:relative; will-change:transform; }
+.index-grid .cell:hover{ box-shadow: var(--mx,0px) var(--my,6px) 24px -8px rgba(59,42,62,0.25); }
+
+/* ============================================= */
+/* EXPERIMENT TOGGLE CONTROL                      */
+/* ============================================= */
+.exp-toggle{
+  position:fixed; top:80px; right:24px; z-index:60;
+  display:flex; gap:6px; background:var(--bg-card); border:1px solid var(--border);
+  padding:6px; border-radius:9px; box-shadow:0 12px 30px -12px rgba(59,42,62,0.3);
+}
+.exp-toggle button{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;
+  background:transparent; border:1px solid transparent; color:var(--ink-soft);
+  padding:9px 14px; border-radius:6px; cursor:pointer; transition:all .2s;
+}
+.exp-toggle button:hover{ color:var(--ink); }
+.exp-toggle button.active{ background:var(--ink); color:var(--bg); }
+@media (max-width:760px){
+  .exp-toggle{
+    position:static; margin:16px auto 0; width:max-content;
+    display:flex;
+  }
+  .exp-toggle + .hero{ padding-top:24px; }
+}
+
+/* ============================================= */
+/* EDITORIAL LAYOUT                               */
+/* ============================================= */
+.editorial{ margin-top:8px; }
+
+.ed-feature{
+  position:relative; display:flex; align-items:stretch; overflow:hidden;
+  border:1px solid var(--border); background:var(--bg-card); cursor:pointer;
+  margin-bottom:28px; min-height:440px; transition:border-color .3s ease;
+}
+.ed-feature:hover{ border-color:var(--coral); }
+.ed-feature-body{
+  flex:0 0 42%; padding:48px 40px; display:flex; flex-direction:column;
+  justify-content:center; position:relative; z-index:2; min-width:0;
+}
+.ed-feature-body .num{ font-family:var(--font-mono); font-size:12px; color:var(--coral); margin-bottom:16px; }
+.ed-feature-body .ed-title{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:38px; line-height:1.15; margin-bottom:16px; }
+.ed-feature-body .ed-desc{ font-family:var(--font-sans); font-size:16px; color:var(--ink-soft); max-width:340px; margin-bottom:22px; }
+.ed-feature-body .ed-outcome{ font-family:var(--font-mono); font-size:11.5px; color:var(--olive); letter-spacing:0.02em; line-height:1.7; max-width:320px; }
+
+.ed-feature-media{ flex:1; position:relative; overflow:hidden; }
+.ed-feature-media img{
+  position:absolute; top:0; left:-2%; width:114%; height:100%;
+  object-fit:cover; object-position:center; border-radius:8px;
+  border:1px solid var(--border);
+  box-shadow:0 24px 60px -24px rgba(59,42,62,0.28);
+  animation:featureDrift 9s ease-in-out infinite;
+}
+@keyframes featureDrift{
+  0%,100%{ transform:scale(1) translateX(0); }
+  50%{ transform:scale(1.02) translateX(-1%); }
+}
+@media (prefers-reduced-motion:reduce){
+  .ed-feature-media img{ animation:none; }
+}
+
+.ed-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.ed-card{ display:block; cursor:pointer; }
+.ed-card-media{
+  position:relative; aspect-ratio:4/3; overflow:hidden; border-radius:8px;
+  border:1px solid var(--border); box-shadow:0 16px 40px -20px rgba(59,42,62,0.25);
+  margin-bottom:16px;
+}
+.ed-card-media img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transform:scale(1.15); transition:transform .4s ease;
+}
+.ed-card:hover .ed-card-media img{ transform:scale(1.22); }
+.ed-card .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:8px; }
+.ed-card .ed-title{ font-family:var(--font-display); font-style:italic; font-size:19px; margin-bottom:8px; transition:color .2s; }
+.ed-card:hover .ed-title{ color:var(--coral); }
+.ed-card .ed-desc{ font-family:var(--font-sans); font-size:13.5px; color:var(--ink-soft); margin-bottom:10px; }
+.ed-card .ed-outcome{ font-family:var(--font-mono); font-size:10.5px; color:var(--olive); line-height:1.6; }
+
+@media (max-width:820px){
+  .ed-feature{ flex-direction:column; min-height:auto; }
+  .ed-feature-media{ height:240px; }
+  .ed-feature-media img{ left:0; width:100%; }
+  .ed-feature-body{ flex:none; padding:32px 28px; }
+}
+@media (max-width:700px){
+  .ed-grid{ grid-template-columns:1fr; }
+}
+
+/* ============================================= */
+/* STORYBOOK LAYOUT                               */
+/* ============================================= */
+.storybook{ margin-top:8px; }
+
+.story-viewport{ overflow:hidden; position:relative; }
+.story-track{
+  display:flex; transition:transform .5s cubic-bezier(.65,0,.35,1);
+  will-change:transform; cursor:grab; touch-action:pan-y;
+}
+.story-track.dragging{ transition:none; cursor:grabbing; }
+
+.story-slide{
+  flex:0 0 88%; margin-right:24px; display:flex; align-items:stretch;
+  min-width:0;
+}
+.story-media{
+  flex:0 0 52%; position:relative; overflow:hidden; border-radius:8px;
+  border:1px solid var(--border); box-shadow:0 24px 60px -24px rgba(59,42,62,0.28);
+  aspect-ratio:4/3;
+}
+.story-media img{
+  width:100%; height:100%; object-fit:cover; display:block; transform:scale(1.12);
+  -webkit-user-drag:none; user-select:none; pointer-events:none;
+}
+.story-body{ flex:1; padding:0 0 0 44px; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+.story-body .num{ font-family:var(--font-mono); font-size:12px; color:var(--coral); margin-bottom:16px; }
+.story-body .st-title{ font-family:var(--font-display); font-style:italic; font-size:34px; margin-bottom:16px; }
+.story-body .st-desc{ font-family:var(--font-sans); font-size:16px; color:var(--ink-soft); margin-bottom:18px; max-width:360px; }
+.story-body .st-outcome{ font-family:var(--font-mono); font-size:11.5px; color:var(--olive); line-height:1.7; max-width:340px; margin-bottom:26px; }
+.story-body .st-link{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;
+  color:var(--ink); border-bottom:1px solid var(--coral); padding-bottom:3px; width:max-content;
+  transition:color .2s;
+}
+.story-body .st-link:hover{ color:var(--coral); }
+
+.story-controls{ display:flex; align-items:center; justify-content:space-between; margin-top:28px; }
+.story-arrows{ display:flex; gap:10px; }
+.story-arrow{
+  width:42px; height:42px; border-radius:50%; border:1px solid var(--border); background:var(--bg-card);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; color:var(--ink);
+}
+.story-arrow svg{ width:16px; height:16px; }
+.story-arrow:hover:not(:disabled){ border-color:var(--coral); color:var(--coral); }
+.story-arrow:disabled{ opacity:.3; cursor:default; }
+.story-dots{ display:flex; align-items:center; gap:10px; }
+.story-dots .dot{ width:7px; height:7px; border-radius:50%; background:var(--border-strong); border:none; cursor:pointer; padding:0; transition:all .2s; }
+.story-dots .dot.active{ background:var(--coral); width:22px; border-radius:4px; }
+.story-count{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); letter-spacing:0.03em; }
+
+@media (max-width:820px){
+  .story-slide{ flex-direction:column; flex-basis:90%; }
+  .story-media{ aspect-ratio:16/10; }
+  .story-body{ padding:24px 0 0; }
+  .story-body .st-title{ font-size:26px; }
+}
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="mark" href="index.html"><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/608301ea3f40d42e7179f87a_signature%20(4).png" alt="Aaiza Khalid"></a>
+    <div class="links">
+      <a href="index.html" class="current">Work</a>
+      <a href="about.html">About</a>
+      <a href="https://drive.google.com/file/d/19e17WvqtgwXd5ikh0A21keDAwqfaJ39k/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </div>
+</nav>
+
+<div class="exp-toggle" role="tablist" aria-label="Homepage layout experiments">
+  <button type="button" data-layout="current" class="active" aria-pressed="true">Current</button>
+  <button type="button" data-layout="editorial" aria-pressed="false">Editorial</button>
+  <button type="button" data-layout="storybook" aria-pressed="false">Storybook</button>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">product designer &amp; engineer</div>
+    <h1>I design the interfaces that make AI systems feel <span class="accent">trustworthy</span>.</h1>
+    <p class="sub">I led design at a voice-AI startup, built the world's first prompt-to-avatar tool, and shipped software that helps fight $24 billion in check fraud. I work at the edge of design and code, on products where the hard part is earning a user's trust.</p>
+  </div>
+</header>
+
+<main class="wrap body-content">
+  <h3 style="margin-top:8px;">Selected work</h3>
+
+  <!-- ===================== CURRENT (unchanged control) ===================== -->
+  <div id="layout-current" class="layout-panel">
+    <div class="index-grid">
+
+      <a class="cell" href="work/aviary.html">
+        <div class="thumb">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <img class="thumb-media" src="images/aviary-thumb.webp" alt="Aviary voice agent analytics dashboard">
+        </div>
+        <div class="cell-body">
+          <div class="num">01</div>
+          <div class="name">Aviary AI</div>
+          <span class="tag">Voice-agent call quality monitoring</span>
+        </div>
+      </a>
+
+      <a class="cell" href="work/bithuman.html">
+        <div class="thumb flush">
+          <img class="thumb-media" src="images/bithuman-thumb.webp" alt="bitHuman avatar generation UI">
+        </div>
+        <div class="cell-body">
+          <div class="num">02</div>
+          <div class="name">bitHuman</div>
+          <span class="tag">Prompt to avatar tool</span>
+        </div>
+      </a>
+
+      <a class="cell" href="work/unit21.html">
+        <div class="thumb">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <img class="thumb-media" src="images/unit21-thumb.webp" alt="Unit21 check fraud cases dashboard">
+        </div>
+        <div class="cell-body">
+          <div class="num">03</div>
+          <div class="name">Unit21</div>
+          <span class="tag">Fighting check fraud</span>
+        </div>
+      </a>
+
+      <a class="cell" href="work/alert-scores.html">
+        <div class="thumb">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <img class="thumb-media" src="images/alert-scores-thumb.webp" alt="Alert Scores explainability breakdown">
+        </div>
+        <div class="cell-body">
+          <div class="num">04</div>
+          <div class="name">Alert Scores</div>
+          <span class="tag">UX of explainable AI</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ===================== EDITORIAL (generated by JS) ===================== -->
+  <div id="layout-editorial" class="layout-panel" style="display:none">
+    <div class="editorial">
+      <div id="ed-feature-root"></div>
+      <div id="ed-grid-root" class="ed-grid"></div>
+    </div>
+  </div>
+
+  <!-- ===================== STORYBOOK (generated by JS) ===================== -->
+  <div id="layout-storybook" class="layout-panel" style="display:none">
+    <div class="storybook">
+      <div class="story-viewport">
+        <div class="story-track" id="story-track"></div>
+      </div>
+      <div class="story-controls">
+        <div class="story-arrows">
+          <button type="button" class="story-arrow" id="story-prev" aria-label="Previous project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="story-arrow" id="story-next" aria-label="Next project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="story-dots" id="story-dots"></div>
+        <div class="story-count" id="story-count">01 / 04</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="archive">
+    <h3>Archive</h3>
+    <div class="archive-list">
+      <a href="work/alnoor.html">
+        <span class="name">AlNoor</span>
+        <span class="tag">Clinical case management</span>
+      </a>
+      <a href="work/tobyexpo.html">
+        <span class="name">TobyExpo</span>
+        <span class="tag">Immersive museum app</span>
+      </a>
+      <a href="work/dozr.html">
+        <span class="name">Dozr</span>
+        <span class="tag">Engaging equipment suppliers</span>
+      </a>
+      <a href="work/onboarding.html">
+        <span class="name">Onboarding</span>
+        <span class="tag">Self-serve partner flow</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="label">Reach me at</span>
+    <a class="big" href="mailto:aaiza_khalid@hotmail.com">aaiza_khalid@hotmail.com</a>
+    <span class="label">Connect on</span>
+    <a class="big" href="https://www.linkedin.com/in/aaizakh/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('mousemove', function(){
+  document.body.classList.add('grid-on');
+}, { once:true });
+
+// soft cursor-following shadow on Current-layout project cells
+document.querySelectorAll('#layout-current .cell').forEach(c=>{
+  c.addEventListener('mousemove',(e)=>{
+    const r=c.getBoundingClientRect();
+    const dx=((e.clientX-r.left)/r.width - .5)*-14;
+    const dy=((e.clientY-r.top)/r.height - .5)*-14 + 6;
+    c.style.setProperty('--mx', dx+'px');
+    c.style.setProperty('--my', dy+'px');
+  });
+});
+
+/* ============================================= */
+/* SHARED PROJECT DATA (Editorial + Storybook)    */
+/* ============================================= */
+var PROJECTS = [
+  {
+    num:'01', name:'Aviary AI', href:'work/aviary.html',
+    desc:'Voice-agent call quality monitoring',
+    outcome:'Used by ~20 enterprise clients. 80 to 95% agreement with human reviewers.',
+    thumb:'images/aviary-thumb.webp', pos:'50% 22%'
+  },
+  {
+    num:'02', name:'bitHuman', href:'work/bithuman.html',
+    desc:'Prompt to avatar tool',
+    outcome:'World’s first prompt-to-avatar generation tool.',
+    thumb:'images/bithuman-thumb.webp', pos:'70% 42%'
+  },
+  {
+    num:'03', name:'Unit21', href:'work/unit21.html',
+    desc:'Fighting check fraud',
+    outcome:'Tools used to fight $24 billion in check fraud.',
+    thumb:'images/unit21-thumb.webp', pos:'50% 18%'
+  },
+  {
+    num:'04', name:'Alert Scores', href:'work/alert-scores.html',
+    desc:'UX of explainable AI',
+    outcome:'Explainable AI scoring for fraud investigators.',
+    thumb:'images/alert-scores-thumb.webp', pos:'22% 38%'
+  }
+];
+
+/* ============================================= */
+/* BUILD EDITORIAL LAYOUT                         */
+/* ============================================= */
+function buildEditorial(){
+  var feature = PROJECTS[0];
+  var rest = PROJECTS.slice(1);
+
+  var featureRoot = document.getElementById('ed-feature-root');
+  var a = document.createElement('a');
+  a.className = 'ed-feature';
+  a.href = feature.href;
+  a.innerHTML =
+    '<div class="ed-feature-body">' +
+      '<div class="num">' + feature.num + '</div>' +
+      '<div class="ed-title">' + feature.name + '</div>' +
+      '<p class="ed-desc">' + feature.desc + '</p>' +
+      '<span class="ed-outcome">' + feature.outcome + '</span>' +
+    '</div>' +
+    '<div class="ed-feature-media">' +
+      '<img src="' + feature.thumb + '" alt="' + feature.name + ' preview" style="object-position:' + feature.pos + '">' +
+    '</div>';
+  featureRoot.appendChild(a);
+
+  var gridRoot = document.getElementById('ed-grid-root');
+  rest.forEach(function(p){
+    var card = document.createElement('a');
+    card.className = 'ed-card';
+    card.href = p.href;
+    card.innerHTML =
+      '<div class="ed-card-media"><img src="' + p.thumb + '" alt="' + p.name + ' preview" style="object-position:' + p.pos + '"></div>' +
+      '<div class="num">' + p.num + '</div>' +
+      '<div class="ed-title">' + p.name + '</div>' +
+      '<p class="ed-desc">' + p.desc + '</p>' +
+      '<span class="ed-outcome">' + p.outcome + '</span>';
+    gridRoot.appendChild(card);
+  });
+}
+
+/* ============================================= */
+/* BUILD + DRIVE STORYBOOK LAYOUT                 */
+/* ============================================= */
+var storyState = { index:0, slideWidth:0 };
+var storyTrack, storyDots, storyPrev, storyNext, storyCount;
+
+function buildStorybook(){
+  storyTrack = document.getElementById('story-track');
+  storyDots = document.getElementById('story-dots');
+  storyPrev = document.getElementById('story-prev');
+  storyNext = document.getElementById('story-next');
+  storyCount = document.getElementById('story-count');
+
+  PROJECTS.forEach(function(p, i){
+    var slide = document.createElement('div');
+    slide.className = 'story-slide';
+    slide.innerHTML =
+      '<div class="story-media"><img src="' + p.thumb + '" alt="' + p.name + ' preview" style="object-position:' + p.pos + '"></div>' +
+      '<div class="story-body">' +
+        '<div class="num">' + p.num + ' / 0' + PROJECTS.length + '</div>' +
+        '<div class="st-title">' + p.name + '</div>' +
+        '<p class="st-desc">' + p.desc + '</p>' +
+        '<span class="st-outcome">' + p.outcome + '</span>' +
+        '<a class="st-link" href="' + p.href + '">View case study &rarr;</a>' +
+      '</div>';
+    storyTrack.appendChild(slide);
+
+    var dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to ' + p.name);
+    dot.addEventListener('click', function(){ goToSlide(i); });
+    storyDots.appendChild(dot);
+  });
+
+  storyPrev.addEventListener('click', function(){ goToSlide(storyState.index - 1); });
+  storyNext.addEventListener('click', function(){ goToSlide(storyState.index + 1); });
+
+  setupStoryDrag();
+}
+
+function recalcStory(){
+  if(!storyTrack || !storyTrack.children.length) return;
+  var gap = 24;
+  storyState.slideWidth = storyTrack.children[0].getBoundingClientRect().width + gap;
+  goToSlide(storyState.index, false);
+}
+
+function goToSlide(i, animate){
+  if(animate === undefined) animate = true;
+  i = Math.max(0, Math.min(PROJECTS.length - 1, i));
+  storyState.index = i;
+  var offset = -(i * storyState.slideWidth);
+  if(!animate){ storyTrack.style.transition = 'none'; }
+  storyTrack.style.transform = 'translateX(' + offset + 'px)';
+  if(!animate){
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ storyTrack.style.transition = ''; });
+    });
+  }
+  updateStoryUI();
+}
+
+function updateStoryUI(){
+  var i = storyState.index;
+  var dots = storyDots.querySelectorAll('.dot');
+  dots.forEach(function(d, di){ d.classList.toggle('active', di === i); });
+  storyPrev.disabled = (i === 0);
+  storyNext.disabled = (i === PROJECTS.length - 1);
+  var n = i + 1;
+  storyCount.textContent = (n < 10 ? '0' + n : n) + ' / 0' + PROJECTS.length;
+}
+
+function setupStoryDrag(){
+  var dragging = false, startX = 0, baseOffset = 0, moved = false;
+
+  storyTrack.addEventListener('pointerdown', function(e){
+    dragging = true; moved = false;
+    startX = e.clientX;
+    baseOffset = -(storyState.index * storyState.slideWidth);
+    storyTrack.classList.add('dragging');
+    try{ storyTrack.setPointerCapture(e.pointerId); }catch(err){}
+  });
+
+  storyTrack.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    var dx = e.clientX - startX;
+    if(Math.abs(dx) > 6) moved = true;
+    storyTrack.style.transform = 'translateX(' + (baseOffset + dx) + 'px)';
+  });
+
+  function endDrag(e){
+    if(!dragging) return;
+    dragging = false;
+    storyTrack.classList.remove('dragging');
+    var dx = e.clientX - startX;
+    var threshold = storyState.slideWidth * 0.18;
+    if(dx < -threshold) goToSlide(storyState.index + 1);
+    else if(dx > threshold) goToSlide(storyState.index - 1);
+    else goToSlide(storyState.index);
+  }
+
+  storyTrack.addEventListener('pointerup', endDrag);
+  storyTrack.addEventListener('pointercancel', function(){
+    dragging = false;
+    storyTrack.classList.remove('dragging');
+    goToSlide(storyState.index);
+  });
+
+  // prevent the "View case study" link from firing right after a real drag
+  storyTrack.addEventListener('click', function(e){
+    if(moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
+  }, true);
+}
+
+document.addEventListener('keydown', function(e){
+  if(currentLayout !== 'storybook') return;
+  if(e.key === 'ArrowLeft'){ goToSlide(storyState.index - 1); }
+  if(e.key === 'ArrowRight'){ goToSlide(storyState.index + 1); }
+});
+
+var resizeTimer;
+window.addEventListener('resize', function(){
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function(){
+    if(currentLayout === 'storybook') recalcStory();
+  }, 120);
+});
+
+/* ============================================= */
+/* TOGGLE CONTROL                                 */
+/* ============================================= */
+var currentLayout = 'current';
+var toggleButtons = document.querySelectorAll('.exp-toggle button');
+var panels = {
+  current: document.getElementById('layout-current'),
+  editorial: document.getElementById('layout-editorial'),
+  storybook: document.getElementById('layout-storybook')
+};
+
+toggleButtons.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var layout = btn.getAttribute('data-layout');
+    if(layout === currentLayout) return;
+    currentLayout = layout;
+
+    toggleButtons.forEach(function(b){
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
+
+    Object.keys(panels).forEach(function(key){
+      panels[key].style.display = (key === layout) ? 'block' : 'none';
+    });
+
+    if(layout === 'storybook'){
+      requestAnimationFrame(function(){ recalcStory(); });
+    }
+  });
+});
+
+buildEditorial();
+buildStorybook();
+</script>
+</body>
+</html>
