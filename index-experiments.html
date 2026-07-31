@@ -239,41 +239,65 @@ section.body-content{ padding-bottom:20px; }
 }
 
 /* ============================================= */
-/* STORYBOOK LAYOUT                               */
+/* STORYBOOK LAYOUT — an actual page-flip book    */
 /* ============================================= */
 .storybook{ margin-top:8px; }
 
-.story-viewport{ overflow:hidden; position:relative; }
-.story-track{
-  display:flex; transition:transform .5s cubic-bezier(.65,0,.35,1);
-  will-change:transform; cursor:grab; touch-action:pan-y;
+.book-stage{
+  position:relative; aspect-ratio:16/8; perspective:2600px;
+  border-radius:9px; overflow:hidden;
+  box-shadow:0 30px 70px -32px rgba(59,42,62,0.35);
 }
-.story-track.dragging{ transition:none; cursor:grabbing; }
+.book-stage::before{
+  content:''; position:absolute; top:0; bottom:0; left:0; width:34px; z-index:900;
+  background:linear-gradient(90deg, rgba(59,42,62,0.16), transparent);
+  pointer-events:none;
+}
+.book-stage.grabbing{ cursor:grabbing; }
+.book-stage:not(.grabbing){ cursor:grab; }
+.book-stage{ touch-action:pan-y; }
 
-.story-slide{
-  flex:0 0 88%; margin-right:24px; display:flex; align-items:stretch;
-  min-width:0;
+.book-page{
+  position:absolute; inset:0;
+  transform-style:preserve-3d;
+  transform-origin:left center;
+  transition:transform .7s cubic-bezier(.65,0,.35,1);
 }
-.story-media{
-  flex:0 0 52%; position:relative; overflow:hidden; border-radius:8px;
+.book-page.no-anim{ transition:none; }
+
+.book-face{
+  position:absolute; inset:0; backface-visibility:hidden; border-radius:8px; overflow:hidden;
+}
+.book-face.front{
+  display:flex; align-items:stretch; background:var(--bg-card);
   border:1px solid var(--border); box-shadow:0 24px 60px -24px rgba(59,42,62,0.28);
-  aspect-ratio:4/3;
 }
-.story-media img{
+.book-face.front .bp-media{ flex:0 0 50%; position:relative; overflow:hidden; }
+.book-face.front .bp-media img{
   width:100%; height:100%; object-fit:cover; display:block; transform:scale(1.12);
   -webkit-user-drag:none; user-select:none; pointer-events:none;
 }
-.story-body{ flex:1; padding:0 0 0 44px; display:flex; flex-direction:column; justify-content:center; min-width:0; }
-.story-body .num{ font-family:var(--font-mono); font-size:12px; color:var(--coral); margin-bottom:16px; }
-.story-body .st-title{ font-family:var(--font-display); font-style:italic; font-size:34px; margin-bottom:16px; }
-.story-body .st-desc{ font-family:var(--font-sans); font-size:16px; color:var(--ink-soft); margin-bottom:18px; max-width:360px; }
-.story-body .st-outcome{ font-family:var(--font-mono); font-size:11.5px; color:var(--olive); line-height:1.7; max-width:340px; margin-bottom:26px; }
-.story-body .st-link{
+.book-face.front .bp-body{ flex:1; padding:44px 48px; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+.bp-body .num{ font-family:var(--font-mono); font-size:12px; color:var(--coral); margin-bottom:16px; }
+.bp-body .bp-title{ font-family:var(--font-display); font-style:italic; font-size:32px; margin-bottom:14px; }
+.bp-body .bp-desc{ font-family:var(--font-sans); font-size:15.5px; color:var(--ink-soft); margin-bottom:16px; max-width:340px; }
+.bp-body .bp-outcome{ font-family:var(--font-mono); font-size:11px; color:var(--olive); line-height:1.7; max-width:320px; margin-bottom:22px; }
+.bp-body .bp-link{
   font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;
   color:var(--ink); border-bottom:1px solid var(--coral); padding-bottom:3px; width:max-content;
   transition:color .2s;
 }
-.story-body .st-link:hover{ color:var(--coral); }
+.bp-body .bp-link:hover{ color:var(--coral); }
+
+.book-face.back{
+  transform:rotateY(180deg);
+  background:linear-gradient(90deg, rgba(59,42,62,0.08), transparent 45%), var(--bg-card);
+  border:1px solid var(--border); box-shadow:0 24px 60px -24px rgba(59,42,62,0.28);
+}
+.book-face.back::after{
+  content:attr(data-pagenum); position:absolute; bottom:22px; right:26px;
+  font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); opacity:.65;
+}
 
 .story-controls{ display:flex; align-items:center; justify-content:space-between; margin-top:28px; }
 .story-arrows{ display:flex; gap:10px; }
@@ -290,10 +314,14 @@ section.body-content{ padding-bottom:20px; }
 .story-count{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); letter-spacing:0.03em; }
 
 @media (max-width:820px){
-  .story-slide{ flex-direction:column; flex-basis:90%; }
-  .story-media{ aspect-ratio:16/10; }
-  .story-body{ padding:24px 0 0; }
-  .story-body .st-title{ font-size:26px; }
+  .book-stage{ aspect-ratio:5/7; }
+  .book-face.front{ flex-direction:column; }
+  .book-face.front .bp-media{ flex:0 0 44%; }
+  .book-face.front .bp-body{ padding:26px 24px; }
+  .bp-body .bp-title{ font-size:25px; }
+}
+@media (max-width:400px){
+  .book-stage{ aspect-ratio:5/8; }
 }
 </style>
 </head>
@@ -393,9 +421,7 @@ section.body-content{ padding-bottom:20px; }
   <!-- ===================== STORYBOOK (generated by JS) ===================== -->
   <div id="layout-storybook" class="layout-panel" style="display:none">
     <div class="storybook">
-      <div class="story-viewport">
-        <div class="story-track" id="story-track"></div>
-      </div>
+      <div class="book-stage" id="book-stage"></div>
       <div class="story-controls">
         <div class="story-arrows">
           <button type="button" class="story-arrow" id="story-prev" aria-label="Previous project">
@@ -528,132 +554,153 @@ function buildEditorial(){
 }
 
 /* ============================================= */
-/* BUILD + DRIVE STORYBOOK LAYOUT                 */
+/* BUILD + DRIVE STORYBOOK LAYOUT (page-flip book)*/
 /* ============================================= */
-var storyState = { index:0, slideWidth:0 };
-var storyTrack, storyDots, storyPrev, storyNext, storyCount;
+var bookState = { index:0 };
+var bookStage, storyDots, storyPrev, storyNext, storyCount, bookPages = [];
+var TOTAL = PROJECTS.length;
 
 function buildStorybook(){
-  storyTrack = document.getElementById('story-track');
+  bookStage = document.getElementById('book-stage');
   storyDots = document.getElementById('story-dots');
   storyPrev = document.getElementById('story-prev');
   storyNext = document.getElementById('story-next');
   storyCount = document.getElementById('story-count');
 
   PROJECTS.forEach(function(p, i){
-    var slide = document.createElement('div');
-    slide.className = 'story-slide';
-    slide.innerHTML =
-      '<div class="story-media"><img src="' + p.thumb + '" alt="' + p.name + ' preview" style="object-position:' + p.pos + '"></div>' +
-      '<div class="story-body">' +
-        '<div class="num">' + p.num + ' / 0' + PROJECTS.length + '</div>' +
-        '<div class="st-title">' + p.name + '</div>' +
-        '<p class="st-desc">' + p.desc + '</p>' +
-        '<span class="st-outcome">' + p.outcome + '</span>' +
-        '<a class="st-link" href="' + p.href + '">View case study &rarr;</a>' +
-      '</div>';
-    storyTrack.appendChild(slide);
+    var page = document.createElement('div');
+    page.className = 'book-page';
+    page.innerHTML =
+      '<div class="book-face front">' +
+        '<div class="bp-media"><img src="' + p.thumb + '" alt="' + p.name + ' preview" style="object-position:' + p.pos + '"></div>' +
+        '<div class="bp-body">' +
+          '<div class="num">' + p.num + ' / 0' + TOTAL + '</div>' +
+          '<div class="bp-title">' + p.name + '</div>' +
+          '<p class="bp-desc">' + p.desc + '</p>' +
+          '<span class="bp-outcome">' + p.outcome + '</span>' +
+          '<a class="bp-link" href="' + p.href + '">View case study &rarr;</a>' +
+        '</div>' +
+      '</div>' +
+      '<div class="book-face back" data-pagenum="0' + (i + 1) + '"></div>';
+    bookStage.appendChild(page);
+    bookPages.push(page);
 
     var dot = document.createElement('button');
     dot.type = 'button';
     dot.className = 'dot' + (i === 0 ? ' active' : '');
     dot.setAttribute('aria-label', 'Go to ' + p.name);
-    dot.addEventListener('click', function(){ goToSlide(i); });
+    dot.addEventListener('click', function(){ goToPage(i); });
     storyDots.appendChild(dot);
   });
 
-  storyPrev.addEventListener('click', function(){ goToSlide(storyState.index - 1); });
-  storyNext.addEventListener('click', function(){ goToSlide(storyState.index + 1); });
+  storyPrev.addEventListener('click', function(){ goToPage(bookState.index - 1); });
+  storyNext.addEventListener('click', function(){ goToPage(bookState.index + 1); });
 
-  setupStoryDrag();
+  renderBook();
+  setupBookDrag();
 }
 
-function recalcStory(){
-  if(!storyTrack || !storyTrack.children.length) return;
-  var gap = 24;
-  storyState.slideWidth = storyTrack.children[0].getBoundingClientRect().width + gap;
-  goToSlide(storyState.index, false);
-}
-
-function goToSlide(i, animate){
-  if(animate === undefined) animate = true;
-  i = Math.max(0, Math.min(PROJECTS.length - 1, i));
-  storyState.index = i;
-  var offset = -(i * storyState.slideWidth);
-  if(!animate){ storyTrack.style.transition = 'none'; }
-  storyTrack.style.transform = 'translateX(' + offset + 'px)';
-  if(!animate){
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){ storyTrack.style.transition = ''; });
-    });
-  }
+/* z-index + rotation for every page, driven purely by current index */
+function renderBook(animate){
+  bookPages.forEach(function(page, i){
+    if(!animate) page.classList.add('no-anim'); else page.classList.remove('no-anim');
+    var z;
+    if(i < bookState.index) z = i;
+    else if(i === bookState.index) z = TOTAL + 1;
+    else z = TOTAL - (i - bookState.index);
+    page.style.zIndex = z;
+    page.style.transform = (i < bookState.index) ? 'rotateY(-180deg)' : 'rotateY(0deg)';
+    if(!animate){
+      // force reflow so the no-anim class actually applies before we remove it
+      void page.offsetHeight;
+      page.classList.remove('no-anim');
+    }
+  });
   updateStoryUI();
 }
 
+function goToPage(i){
+  i = Math.max(0, Math.min(TOTAL - 1, i));
+  if(i === bookState.index) return;
+  bookState.index = i;
+  renderBook(true);
+}
+
 function updateStoryUI(){
-  var i = storyState.index;
+  var i = bookState.index;
   var dots = storyDots.querySelectorAll('.dot');
   dots.forEach(function(d, di){ d.classList.toggle('active', di === i); });
   storyPrev.disabled = (i === 0);
-  storyNext.disabled = (i === PROJECTS.length - 1);
+  storyNext.disabled = (i === TOTAL - 1);
   var n = i + 1;
-  storyCount.textContent = (n < 10 ? '0' + n : n) + ' / 0' + PROJECTS.length;
+  storyCount.textContent = (n < 10 ? '0' + n : n) + ' / 0' + TOTAL;
 }
 
-function setupStoryDrag(){
-  var dragging = false, startX = 0, baseOffset = 0, moved = false;
+/* live drag: peel the current page forward, or pull the previous page back */
+function setupBookDrag(){
+  var dragging = false, startX = 0, stageWidth = 0, dir = null, progress = 0, moved = false;
 
-  storyTrack.addEventListener('pointerdown', function(e){
-    dragging = true; moved = false;
+  bookStage.addEventListener('pointerdown', function(e){
+    dragging = true; moved = false; dir = null; progress = 0;
     startX = e.clientX;
-    baseOffset = -(storyState.index * storyState.slideWidth);
-    storyTrack.classList.add('dragging');
-    try{ storyTrack.setPointerCapture(e.pointerId); }catch(err){}
+    stageWidth = bookStage.getBoundingClientRect().width || 1;
+    bookStage.classList.add('grabbing');
+    try{ bookStage.setPointerCapture(e.pointerId); }catch(err){}
   });
 
-  storyTrack.addEventListener('pointermove', function(e){
+  bookStage.addEventListener('pointermove', function(e){
     if(!dragging) return;
     var dx = e.clientX - startX;
     if(Math.abs(dx) > 6) moved = true;
-    storyTrack.style.transform = 'translateX(' + (baseOffset + dx) + 'px)';
+
+    if(dx < 0 && bookState.index < TOTAL - 1){
+      dir = 'next';
+      progress = Math.min(1, -dx / stageWidth);
+      var cur = bookPages[bookState.index];
+      cur.classList.add('no-anim');
+      cur.style.transform = 'rotateY(' + (-180 * progress) + 'deg)';
+    } else if(dx > 0 && bookState.index > 0){
+      dir = 'prev';
+      progress = Math.min(1, dx / stageWidth);
+      var prevPage = bookPages[bookState.index - 1];
+      prevPage.classList.add('no-anim');
+      prevPage.style.zIndex = TOTAL + 2;
+      prevPage.style.transform = 'rotateY(' + (-180 + 180 * progress) + 'deg)';
+    }
   });
 
-  function endDrag(e){
+  function endDrag(){
     if(!dragging) return;
     dragging = false;
-    storyTrack.classList.remove('dragging');
-    var dx = e.clientX - startX;
-    var threshold = storyState.slideWidth * 0.18;
-    if(dx < -threshold) goToSlide(storyState.index + 1);
-    else if(dx > threshold) goToSlide(storyState.index - 1);
-    else goToSlide(storyState.index);
+    bookStage.classList.remove('grabbing');
+
+    if(dir === 'next'){
+      var cur = bookPages[bookState.index];
+      cur.classList.remove('no-anim');
+      if(progress > 0.32){ goToPage(bookState.index + 1); }
+      else{ cur.style.transform = 'rotateY(0deg)'; }
+    } else if(dir === 'prev'){
+      var prevPage = bookPages[bookState.index - 1];
+      prevPage.classList.remove('no-anim');
+      if(progress > 0.32){ goToPage(bookState.index - 1); }
+      else{ prevPage.style.transform = 'rotateY(-180deg)'; }
+    }
+    dir = null; progress = 0;
   }
 
-  storyTrack.addEventListener('pointerup', endDrag);
-  storyTrack.addEventListener('pointercancel', function(){
-    dragging = false;
-    storyTrack.classList.remove('dragging');
-    goToSlide(storyState.index);
-  });
+  bookStage.addEventListener('pointerup', endDrag);
+  bookStage.addEventListener('pointercancel', endDrag);
 
   // prevent the "View case study" link from firing right after a real drag
-  storyTrack.addEventListener('click', function(e){
+  bookStage.addEventListener('click', function(e){
     if(moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
   }, true);
 }
 
 document.addEventListener('keydown', function(e){
   if(currentLayout !== 'storybook') return;
-  if(e.key === 'ArrowLeft'){ goToSlide(storyState.index - 1); }
-  if(e.key === 'ArrowRight'){ goToSlide(storyState.index + 1); }
-});
-
-var resizeTimer;
-window.addEventListener('resize', function(){
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(function(){
-    if(currentLayout === 'storybook') recalcStory();
-  }, 120);
+  if(e.key === 'ArrowLeft'){ goToPage(bookState.index - 1); }
+  if(e.key === 'ArrowRight'){ goToPage(bookState.index + 1); }
 });
 
 /* ============================================= */
@@ -683,10 +730,6 @@ toggleButtons.forEach(function(btn){
     Object.keys(panels).forEach(function(key){
       panels[key].style.display = (key === layout) ? 'block' : 'none';
     });
-
-    if(layout === 'storybook'){
-      requestAnimationFrame(function(){ recalcStory(); });
-    }
   });
 });
 
