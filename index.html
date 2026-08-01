@@ -83,43 +83,50 @@ p{ color:var(--ink-soft); max-width:640px; }
 
 /* project index grid — horizontal rows */
 .index-grid{
-  display:flex; flex-direction:column; gap:28px; margin-top:48px;
+  display:flex; flex-direction:column; gap:36px; margin-top:48px;
 }
 .index-grid .cell{
   background:var(--bg-card); border:1px solid var(--border); padding:0; overflow:hidden;
   transition:transform .3s ease, border-color .3s ease; cursor:pointer;
-  display:flex; align-items:stretch;
+  display:flex; align-items:stretch; position:relative;
 }
 .index-grid .cell:hover{ transform:translateY(-4px); border-color:var(--coral); }
-.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:14px; }
-.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:24px; line-height:1.3; }
-.index-grid .cell .tag{ font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); margin-top:12px; display:block; }
-.index-grid .cell .cell-body{ padding:40px 44px; flex:1; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+.index-grid .cell .num{ font-family:var(--font-mono); font-size:11px; color:var(--coral); margin-bottom:16px; }
+.index-grid .cell .name{ font-family:var(--font-display); font-style:italic; font-size:42px; line-height:1.15; padding-right:36px; }
+.index-grid .cell .blurb{ font-family:var(--font-sans); font-size:16.5px; color:var(--ink-soft); margin-top:16px; max-width:460px; }
+.index-grid .cell .cell-body{ padding:56px 64px; flex:1; display:flex; flex-direction:column; justify-content:center; min-width:0; }
 
-/* mini framed thumb, reuses the device-chrome pattern from case studies */
-.index-grid .thumb{ background:#2A2130; padding:18px 18px 0; flex:0 0 340px; display:flex; flex-direction:column; }
-.index-grid .thumb .bar{ display:flex; gap:5px; padding-bottom:12px; }
-.index-grid .thumb .bar i{ width:6px; height:6px; border-radius:50%; background:#584A5E; display:block; }
+/* arrow affordance */
+.index-grid .cell-arrow{
+  position:absolute; top:28px; right:30px; width:22px; height:22px; color:var(--coral);
+  transition:transform .25s ease; z-index:2;
+}
+.index-grid .cell-arrow svg{ width:100%; height:100%; display:block; }
+.index-grid .cell:hover .cell-arrow{ transform:translate(4px,-4px); }
+
+/* thumb: bare image, no chrome frame. contain (not cover) so screenshot
+   text never gets cropped regardless of the source image's aspect ratio */
+.index-grid .thumb{ flex:0 0 460px; display:flex; align-items:center; justify-content:center; background:var(--bg-card); }
 .index-grid .thumb .thumb-media{
-  width:100%; flex:1; object-fit:cover; object-position:top;
-  border-radius:6px 6px 0 0; display:block; background:#1E1722;
+  width:100%; height:100%; object-fit:contain; object-position:center; display:block;
 }
 .index-grid .thumb .quad-mini{
   width:100%; flex:1; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr;
-  gap:4px; padding-bottom:9px;
+  gap:4px; padding:18px;
 }
 .index-grid .thumb .qc{ border-radius:5px; }
 .index-grid .thumb .qc-good{ background:rgba(124,138,61,0.28); border:1px solid rgba(124,138,61,0.45); }
 .index-grid .thumb .qc-red{ background:rgba(194,75,47,0.22); border:1px solid rgba(194,75,47,0.4); }
 .index-grid .thumb .qc-amber{ background:rgba(194,75,47,0.12); border:1px dashed rgba(194,75,47,0.55); }
 
-/* flush variant: for source images that already include their own frame/chrome */
-.index-grid .thumb.flush{ padding:0; background:var(--bg-card); }
-.index-grid .thumb.flush .thumb-media{ border-radius:0; object-position:center; }
-
+@media (max-width:900px){
+  .index-grid .cell .name{ font-size:32px; }
+  .index-grid .cell .cell-body{ padding:40px 44px; }
+}
 @media (max-width:720px){
   .index-grid .cell{ flex-direction:column; }
-  .index-grid .thumb{ flex:0 0 auto; aspect-ratio:16/9; }
+  .index-grid .thumb{ flex:0 0 auto; aspect-ratio:16/10; }
+  .index-grid .cell-arrow{ top:20px; right:20px; }
 }
 
 /* archive row */
@@ -234,49 +241,50 @@ section.body-content{ padding-bottom:20px; }
 
     <a class="cell" href="work/aviary.html">
       <div class="thumb">
-        <div class="bar"><i></i><i></i><i></i></div>
         <img class="thumb-media" src="images/aviary-thumb.webp" alt="Aviary voice agent analytics dashboard">
       </div>
       <div class="cell-body">
         <div class="num">01</div>
-        <div class="name">Aviary AI</div>
-        <span class="tag">Voice-agent call quality monitoring</span>
+        <div class="name">Make It Visible</div>
+        <p class="blurb">A live scoring system that catches bad calls before customers do.</p>
       </div>
+      <div class="cell-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="18" x2="18" y2="6"/><polyline points="8 6 18 6 18 16"/></svg></div>
     </a>
 
     <a class="cell" href="work/bithuman.html">
-      <div class="thumb flush">
+      <div class="thumb">
         <img class="thumb-media" src="images/bithuman-thumb.webp" alt="bitHuman avatar generation UI">
       </div>
       <div class="cell-body">
         <div class="num">02</div>
-        <div class="name">bitHuman</div>
-        <span class="tag">Prompt to avatar tool</span>
+        <div class="name">Words Become Faces</div>
+        <p class="blurb">Type a sentence, get a photorealistic avatar in seconds.</p>
       </div>
+      <div class="cell-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="18" x2="18" y2="6"/><polyline points="8 6 18 6 18 16"/></svg></div>
     </a>
 
     <a class="cell" href="work/unit21.html">
       <div class="thumb">
-        <div class="bar"><i></i><i></i><i></i></div>
         <img class="thumb-media" src="images/unit21-thumb.webp" alt="Unit21 check fraud cases dashboard">
       </div>
       <div class="cell-body">
         <div class="num">03</div>
-        <div class="name">Unit21</div>
-        <span class="tag">Fighting check fraud</span>
+        <div class="name">Faster Than Fraud</div>
+        <p class="blurb">Tools that help investigators catch $24 billion in check fraud.</p>
       </div>
+      <div class="cell-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="18" x2="18" y2="6"/><polyline points="8 6 18 6 18 16"/></svg></div>
     </a>
 
     <a class="cell" href="work/alert-scores.html">
       <div class="thumb">
-        <div class="bar"><i></i><i></i><i></i></div>
         <img class="thumb-media" src="images/alert-scores-thumb.webp" alt="Alert Scores explainability breakdown">
       </div>
       <div class="cell-body">
         <div class="num">04</div>
-        <div class="name">Alert Scores</div>
-        <span class="tag">UX of explainable AI</span>
+        <div class="name">No Black Boxes</div>
+        <p class="blurb">Explainable scoring that earns an investigator's trust before automation does.</p>
       </div>
+      <div class="cell-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="18" x2="18" y2="6"/><polyline points="8 6 18 6 18 16"/></svg></div>
     </a>
 
   </div>
