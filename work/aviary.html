@@ -234,10 +234,10 @@ footer .fmono{color:var(--ink-mute);}
       <div class="quad-head mono">Outcome: success</div>
       <div class="quad-head mono">Outcome: fail</div>
       <div class="quad-axis-y mono">Experience quality</div>
-      <div class="quad-cell qc-good" id="q-gg"><span class="qc-label">Goal met, good experience</span><span class="qc-state">✓ healthy</span></div>
-      <div class="quad-cell qc-red" id="q-bg"><span class="qc-label">Goal missed, good experience</span><span class="qc-state">✕ flagged</span></div>
+      <div class="quad-cell" id="q-gg"><span class="qc-label">Goal met, good experience</span><span class="qc-state">✓ healthy</span></div>
+      <div class="quad-cell" id="q-bg"><span class="qc-label">Goal missed, good experience</span><span class="qc-state">✕ flagged</span></div>
       <div class="quad-cell danger" id="q-gb" onclick="pulseDanger()"><span class="qc-label">Goal met, bad experience</span><span class="qc-state" id="q-gb-state">?</span></div>
-      <div class="quad-cell qc-red" id="q-bb"><span class="qc-label">Goal missed, bad experience</span><span class="qc-state">✕ flagged</span></div>
+      <div class="quad-cell" id="q-bb"><span class="qc-label">Goal missed, bad experience</span><span class="qc-state">✕ flagged</span></div>
     </div>
     <div class="quad-note" id="quad-note"><strong>If it were blended:</strong> outcome and experience would average into one "success" reading, and this call's bad experience disappears. This is the risk the two-score design exists to avoid, not how the product actually works.</div>
   </div>
@@ -424,14 +424,14 @@ function setQuad(mode){
   var cell=document.getElementById('q-gb'), state=document.getElementById('q-gb-state'), note=document.getElementById('quad-note');
   if(mode==='blend'){
     // hypothetical: what a single merged score would show, and why that's the risk
-    cell.className='quad-cell danger qc-good';
+    cell.className='quad-cell danger';
     state.innerHTML='✓ reads as success';
     note.innerHTML='<strong>If it were blended:</strong> outcome and experience would average into one "success" reading, and this call\'s bad experience disappears. This is the risk the two-score design exists to avoid, not how the product actually works.';
   } else {
     // actual product: no merged verdict, just two independent flags shown side by side
     cell.className='quad-cell danger';
-    state.innerHTML='<span style="color:var(--olive);">OUTCOME ✓</span> &nbsp; <span style="color:var(--coral);">EXPERIENCE ✕</span>';
-    note.innerHTML='<strong>How it actually works:</strong> outcome and experience are always shown as two separate flags, never merged into one verdict. This call is green on outcome and red on experience, both visible at once. There\'s no single score to hide behind.';
+    state.innerHTML='OUTCOME ✓ &nbsp; EXPERIENCE ✕';
+    note.innerHTML='<strong>How it actually works:</strong> outcome and experience are always shown as two separate flags, never merged into one verdict. This call passes on outcome and fails on experience, both visible at once. There\'s no single score to hide behind.';
   }
 }
 function pulseDanger(){
