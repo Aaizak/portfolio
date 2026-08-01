@@ -204,7 +204,7 @@ footer .fmono{color:var(--ink-mute);}
   <p class="sub">Every dashboard counted that as a success. I designed the monitoring layer that made call-experience health visible, and built the scoring model underneath it. Validated against human reviewers, it reached about 90 to 95% agreement.</p>
   <div class="meta">
     <div><span class="mono">Role</span><span class="v">Lead designer, solo. Plus scoring logic.</span></div>
-    <div><span class="mono">Scope</span><span class="v">Research to spec to beta rollout</span></div>
+    <div><span class="mono">Scope</span><span class="v">Discovery to beta rollout</span></div>
     <div><span class="mono">Now used by</span><span class="v">About 20 enterprise clients</span></div>
   </div>
 </div></header>
@@ -226,20 +226,20 @@ footer .fmono{color:var(--ink-mute);}
 
   <div class="quad-demo">
     <div class="quad-toggle">
-      <button class="on" data-mode="blend" onclick="setQuad('blend')">One blended score</button>
-      <button data-mode="split" onclick="setQuad('split')">Two separate scores</button>
+      <button class="on" data-mode="blend" onclick="setQuad('blend')">If it were blended (hypothetical)</button>
+      <button data-mode="split" onclick="setQuad('split')">How it actually works</button>
     </div>
     <div class="quad-grid">
       <div class="quad-corner"></div>
       <div class="quad-head mono">Outcome: success</div>
       <div class="quad-head mono">Outcome: fail</div>
       <div class="quad-axis-y mono">Experience quality</div>
-      <div class="quad-cell qc-good" id="q-gg"><span class="qc-label">Good call, goal met</span><span class="qc-state">✓ healthy</span></div>
-      <div class="quad-cell qc-red" id="q-bg"><span class="qc-label">Bad call, goal missed</span><span class="qc-state">✕ flagged</span></div>
+      <div class="quad-cell qc-good" id="q-gg"><span class="qc-label">Goal met, good experience</span><span class="qc-state">✓ healthy</span></div>
+      <div class="quad-cell qc-red" id="q-bg"><span class="qc-label">Goal missed, good experience</span><span class="qc-state">✕ flagged</span></div>
       <div class="quad-cell danger" id="q-gb" onclick="pulseDanger()"><span class="qc-label">Goal met, bad experience</span><span class="qc-state" id="q-gb-state">?</span></div>
-      <div class="quad-cell qc-red" id="q-bb"><span class="qc-label">Bad call, goal missed</span><span class="qc-state">✕ flagged</span></div>
+      <div class="quad-cell qc-red" id="q-bb"><span class="qc-label">Goal missed, bad experience</span><span class="qc-state">✕ flagged</span></div>
     </div>
-    <div class="quad-note" id="quad-note"><strong>Blended view:</strong> the goal-met, bad-experience call is averaged into "success," so it disappears. This is the blind spot.</div>
+    <div class="quad-note" id="quad-note"><strong>If it were blended:</strong> outcome and experience would average into one "success" reading, and this call's bad experience disappears. This is the risk the two-score design exists to avoid, not how the product actually works.</div>
   </div>
 
   <div class="decision reveal">
@@ -255,11 +255,11 @@ footer .fmono{color:var(--ink-mute);}
 <section><div class="wrap reveal">
   <div class="snum mono">02 · Grounding <span class="phase">Research</span></div>
   <h2>I didn't ask how they worked. <em>I watched.</em></h2>
-  <p class="lead">I worked with five credit unions, and instead of interviewing people about their process, I had them open the live dashboard and do their real monitoring job while I watched. People rarely describe their own workflow accurately. Watching them do it shows you what they actually struggle with.</p>
+  <p class="lead">I worked with five credit unions, and instead of interviewing people about their process, I had them open the live dashboard and do their real monitoring job while I watched. That's where the Excel workaround showed up, something nobody had mentioned when I'd asked about their process directly.</p>
   <div class="decision" style="border-left-color:var(--olive);">
     <span class="dlabel mono" style="color:var(--olive);">What watching revealed</span>
     <div class="dtitle">They left the product to do the core job</div>
-    <p>Users downloaded spreadsheets and worked the central "which calls are bad?" question in Excel, because the dashboard couldn't answer it. When people exit your product to do the main task by hand, that's not a missing feature. It's proof the product isn't doing its job. I only saw it because I watched the whole path.</p>
+    <p>Users downloaded spreadsheets and worked the central "which calls are bad?" question in Excel, because the dashboard couldn't answer it. When people quietly route around your product to do the main task by hand, the product has already failed at its main job. I only saw it because I watched the whole path.</p>
   </div>
   <p>I built the script around the decisions these operators actually make: how they judge a call, what makes them escalate, when they diagnose something themselves versus hand it back to us. Watching them rate calls in these sessions also gave me the human benchmark I later validated the scoring model against.</p>
 </div></section>
@@ -298,7 +298,7 @@ footer .fmono{color:var(--ink-mute);}
 <section><div class="wrap reveal">
   <div class="snum mono">04 · The rigor <span class="phase">Solution / logic</span></div>
   <h2>A call can be fine on every metric and <em>still be bad</em></h2>
-  <p class="lead">I collapsed a granular 1 to 5 score into three buckets, because the operator's job is triage, not precision ranking. They need to know whether to ignore a call, review it, or stop and look now. The rule that matters most is subtler: two moderate issues compound into a critical one. Build a call and watch where it lands:</p>
+  <p class="lead">I collapsed a granular 1 to 5 score into three buckets: ignore, review, or stop and look now. That's the actual decision operators make on every call. The rule that matters most is subtler: two moderate issues compound into a critical one. Build a call and watch where it lands:</p>
 
   <div class="grader">
     <div class="grader-presets">
@@ -334,7 +334,7 @@ footer .fmono{color:var(--ink-mute);}
 <section><div class="wrap reveal">
   <div class="snum mono">05 · AI-native framing <span class="phase">Design rationale</span></div>
   <h2>Designing for <em>trust</em> in an AI product</h2>
-  <p class="lead">Monitoring an AI agent is a trust problem before it's an interface problem. A quality-sensitive client won't act on a grade they can't understand or override. Three principles shaped how the system earns that trust. Tap a card for why I applied it this way and not the obvious alternative.</p>
+  <p class="lead">A quality-sensitive client won't act on a grade they can't understand or override, so every decision in this system exists to answer one question: why should they trust it? Three principles shaped how it earns that trust. Tap a card for why I applied it this way and not the obvious alternative.</p>
 
   <div class="patterns">
     <div class="pcard" onclick="this.classList.toggle('open')">
@@ -342,24 +342,24 @@ footer .fmono{color:var(--ink-mute);}
       <h4>Make it traceable</h4>
       <div class="pdesc">A client can follow any grade back to the calls behind it.</div>
       <div class="ptoggle mono">why, and not an alert +</div>
-      <div class="pwhy">The three-level drill-down lets a client walk from "this campaign scored 68" down to "because these two calls hit compliance flags." An alert would just say something is wrong. Being able to trace the grade to its evidence is what makes it trustworthy, and clients won't rely on a grade they can't check.</div>
+      <div class="pwhy">The three-level drill-down lets a client walk from "this campaign scored 68" down to "because these two calls hit compliance flags." An alert would just say something is wrong. Tracing the grade back to its evidence is what makes it trustworthy.</div>
     </div>
     <div class="pcard" onclick="this.classList.toggle('open')">
       <div class="pfam mono">Principle</div>
       <h4>Show the reasoning</h4>
       <div class="pdesc">The system explains why it graded a call the way it did.</div>
       <div class="ptoggle mono">why it matters +</div>
-      <div class="pwhy">The Critical card lists the specific triggers behind a grade rather than just the verdict: a compliance flag, illogical patterns, a silent agent. A client can only trust the score if they can audit the reasoning behind it, so the reasoning is surfaced, not hidden.</div>
+      <div class="pwhy">The Critical card lists the specific triggers behind a grade rather than just the verdict: a compliance flag, illogical patterns, a silent agent. A client can only trust the score if they can audit the reasoning behind it, so the Critical card always shows its work.</div>
     </div>
     <div class="pcard" onclick="this.classList.toggle('open')">
       <div class="pfam mono">Principle</div>
       <h4>Keep the human in control</h4>
       <div class="pdesc">The system informs a decision. It never makes one automatically.</div>
       <div class="ptoggle mono">why, and not automation +</div>
-      <div class="pwhy">It never auto-pauses a campaign. In a low-trust setting, one false positive that halts a live campaign would break confidence for good. The safer, more useful choice was to inform the operator's judgment rather than replace it. Automation can come once the system has earned that trust.</div>
+      <div class="pwhy">It never auto-pauses a campaign. In a low-trust setting, one false positive that halts a live campaign would break confidence for good, so the system informs the operator's judgment. Automation can come later, once it's earned that trust.</div>
     </div>
   </div>
-  <div class="pnote">The two-score separation from the start of this study is the center of the design, but it's a decision about <em>measurement</em>, not interaction. It's what decides whether a bad call is visible at all, before any of these interaction principles come into play.</div>
+  <div class="pnote">The two-score separation from earlier is still the center of the design. It's a <em>measurement</em> decision, and it decides whether a bad call is visible at all, before any of these interaction principles even come into play.</div>
 </div></section>
 
 <div class="divider"></div>
@@ -405,7 +405,7 @@ footer .fmono{color:var(--ink-mute);}
     <div><div class="in">80 to 95%</div><div class="il">agreement with human reviewers after the new metric</div></div>
     <div><div class="in">~80%<span style="font-size:16px;">*</span></div><div class="il">faster to triage which calls to review<br><span style="font-size:11px; color:var(--ink-mute);">*early Mixpanel funnel data, verifying exact figure</span></div></div>
   </div>
-  <p style="margin-top:30px;">The hardest part of this project wasn't the interface. It was the measurement design underneath it, and holding V1 to a narrow scope while a steady stream of reasonable requests (benchmarks, remediation, a learning loop) pushed to expand it. Deciding what to leave out mattered as much as deciding what to build.</p>
+  <p style="margin-top:30px;">The hardest part of this project was the measurement design underneath the interface, and holding V1 to a narrow scope while a steady stream of reasonable requests (benchmarks, remediation, a learning loop) pushed to expand it. Deciding what to leave out mattered as much as deciding what to build.</p>
 </div></section>
 
 <footer><div class="wrap">
@@ -423,13 +423,15 @@ function setQuad(mode){
   document.querySelectorAll('.quad-toggle button').forEach(b=>b.classList.toggle('on', b.dataset.mode===mode));
   var cell=document.getElementById('q-gb'), state=document.getElementById('q-gb-state'), note=document.getElementById('quad-note');
   if(mode==='blend'){
+    // hypothetical: what a single merged score would show, and why that's the risk
     cell.className='quad-cell danger qc-good';
-    state.textContent='✓ reads as success';
-    note.innerHTML='<strong>Blended view:</strong> the goal-met, bad-experience call is averaged into "success," so it disappears. This is the blind spot.';
+    state.innerHTML='✓ reads as success';
+    note.innerHTML='<strong>If it were blended:</strong> outcome and experience would average into one "success" reading, and this call\'s bad experience disappears. This is the risk the two-score design exists to avoid, not how the product actually works.';
   } else {
-    cell.className='quad-cell danger qc-red';
-    state.textContent='✕ flagged on experience';
-    note.innerHTML='<strong>Two separate scores:</strong> the same call is green on outcome but red on experience. The dangerous call is now visible, and you can act on it.';
+    // actual product: no merged verdict, just two independent flags shown side by side
+    cell.className='quad-cell danger';
+    state.innerHTML='<span style="color:var(--olive);">OUTCOME ✓</span> &nbsp; <span style="color:var(--coral);">EXPERIENCE ✕</span>';
+    note.innerHTML='<strong>How it actually works:</strong> outcome and experience are always shown as two separate flags, never merged into one verdict. This call is green on outcome and red on experience, both visible at once. There\'s no single score to hide behind.';
   }
 }
 function pulseDanger(){
