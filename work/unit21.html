@@ -178,6 +178,14 @@ figure.framed img{ border:none; border-radius:7px; cursor:zoom-in; }
 .opt-verdict span{ font-family:var(--font-mono); font-size:11px; padding:6px 12px; border:1px solid var(--border); background:var(--bg-card); color:var(--ink-soft); }
 .opt-verdict span.win{ border-color:var(--olive); color:var(--olive); }
 .opt-verdict span.lose{ border-color:var(--coral); color:var(--coral); }
+/* requirement cards */
+.req-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:28px 0; }
+.req-card{ background:var(--bg-card); border:1px solid var(--border); padding:24px 22px; }
+.req-card .req-icon{ width:34px; height:34px; color:var(--coral); margin-bottom:18px; }
+.req-card .req-icon svg{ width:100%; height:100%; display:block; }
+.req-card p{ font-size:14px; color:var(--ink-soft); margin:0; }
+@media (max-width:720px){ .req-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:480px){ .req-grid{ grid-template-columns:1fr; } }
 /* lightbox */
 .lightbox{ position:fixed; inset:0; background:rgba(42,33,48,0.94); display:none; align-items:center; justify-content:center; z-index:99; cursor:zoom-out; padding:40px; }
 .lightbox.open{ display:flex; }
@@ -243,9 +251,34 @@ figure.framed img{ border:none; border-radius:7px; cursor:zoom-in; }
   <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/6644fb6aad30bab7bf0091d2_Group%20633779.png" alt="Manager sentiment"></figure>
 
   <h2 class="reveal">What functionality was actually required?</h2>
-  <p>Through user walkthroughs, competitive analysis, and ethnographic research, six requirements emerged — including the ability to view, zoom, compare, enhance, and overlay check images directly within Unit21.</p>
-  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/664509c06752a78fbb199577_440882471_812549610297609_5010116247367626260_n%201.png" alt="Requirement: view check image"></figure>
-  <figure class="framed"><div class="bar"><i></i><i></i><i></i></div><img src="https://cdn.prod.website-files.com/6029a00655b62debcb2ac54f/664509c1ff520222ed7baaa2_440911933_414790401450991_597062968559238375_n%201.png" alt="Requirement: overlay checks"></figure>
+  <p>As part of user research, I conducted user walkthroughs, competitive analysis, and ethnographic research. The following user requirements emerged as a result.</p>
+
+  <div class="req-grid reveal">
+    <div class="req-card">
+      <div class="req-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="1.5"/><line x1="6" y1="10" x2="12" y2="10"/><line x1="6" y1="14" x2="10" y2="14"/></svg></div>
+      <p>As a fraud analyst, I want to be able to view check images in Unit21.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="8.5" height="10" rx="1"/><rect x="13.5" y="7" width="8.5" height="10" rx="1"/><line x1="12" y1="5" x2="12" y2="19" stroke-dasharray="2 2"/></svg></div>
+      <p>As a fraud analyst, I need to compare the given check image with previous check images in a single view.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="10.5" y1="7.5" x2="10.5" y2="13.5"/><line x1="7.5" y1="10.5" x2="13.5" y2="10.5"/><line x1="15.5" y1="15.5" x2="20.5" y2="20.5"/></svg></div>
+      <p>As a fraud analyst, I'd like to be able to zoom into check images, since I'd like to find inconsistencies and analyze signatures as they are usually small.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L13.8 9.5 L20 12 L13.8 14.5 L12 21 L10.2 14.5 L4 12 L10.2 9.5 Z"/></svg></div>
+      <p>As a fraud analyst, I would like to enhance check images to identify signs of alterations and correct digital artifacts that occurred during an upload.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,17 8,11 11,14 15,7 21,3"/></svg></div>
+      <p>As a fraud analyst, I would like the ability to conduct quick analysis on an entity's past transactions.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="12" height="12"/><rect x="9" y="3" width="12" height="12" opacity="0.55"/></svg></div>
+      <p>As a fraud analyst, I want to overlay old checks on the check I am viewing to identify differences in signature, check stock, handwriting, etc.</p>
+    </div>
+  </div>
 
   <div class="decision reveal">
     <span class="dlabel">the call I made</span>
